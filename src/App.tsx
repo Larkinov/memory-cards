@@ -1,26 +1,27 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import Header from "./components/Header";
+import Grid from "@mui/material/Grid/Grid";
+import { Box } from "@mui/material";
 
-function App() {
+import ListSubjects from "./components/ListSubjects";
+import PanelCards from "./components/PanelCards";
+
+const App: React.FC = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
+    <div>
+      <Header />
+      <Box height={"90vh"} mt={"10px"}>
+        <Grid
+          container
+          spacing={2}
+          height={"100%"}
         >
-          Learn React
-        </a>
-      </header>
+          <ListSubjects />
+          <PanelCards />
+        </Grid>
+      </Box>
     </div>
   );
-}
+};
 
 export default App;
