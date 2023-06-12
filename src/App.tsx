@@ -4,7 +4,7 @@ import Grid from "@mui/material/Grid/Grid";
 import { Box } from "@mui/material";
 
 import ListSubjects from "./components/ListSubjects";
-import PanelCards from "./components/PanelCards";
+import MainTabs from "./components/MainTabs";
 
 const App: React.FC = () => {
   return (
@@ -17,7 +17,7 @@ const App: React.FC = () => {
           height={"100%"}
         >
           <ListSubjects />
-          <PanelCards />
+          <MainTabs />
         </Grid>
       </Box>
     </div>
