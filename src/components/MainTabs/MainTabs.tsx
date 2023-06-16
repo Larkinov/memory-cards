@@ -4,7 +4,8 @@ import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
-import PanelCards from "./PanelCards";
+import CardsTab from "./CardsTab";
+import ModeTab from "./ModeTab";
 
 import styles from "./MainTabs.module.scss";
 import { Button } from "@mui/material";
@@ -43,8 +44,10 @@ function a11yProps(index: number) {
   };
 }
 
+
+
 const MainTabs: React.FC = () => {
-  const [value, setValue] = React.useState(0);
+  const [value, setValue] = React.useState(1);
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
@@ -66,17 +69,19 @@ const MainTabs: React.FC = () => {
             onChange={handleChange}
             aria-label="basic tabs example"
           >
-            <Button color="success" variant="contained" >Начать</Button>
-            <Tab label="Карточки" {...a11yProps(0)} />
-            <Tab label="Режим" {...a11yProps(1)} />
-            <Tab label="Редактировать" {...a11yProps(2)} />
+            <Button color="success" variant="contained">
+              Начать
+            </Button>
+            <Tab label="Карточки" {...a11yProps(1)} />
+            <Tab label="Настройки" {...a11yProps(2)} />
+            <Tab label="Редактировать" {...a11yProps(3)} />
           </Tabs>
         </Box>
         <TabPanel value={value} index={1}>
-          <PanelCards />
+          <CardsTab />
         </TabPanel>
         <TabPanel value={value} index={2}>
-          Item Two
+          <ModeTab />
         </TabPanel>
         <TabPanel value={value} index={3}>
           Item Three

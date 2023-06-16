@@ -4,7 +4,7 @@ import Grid from "@mui/material/Grid/Grid";
 import { Box } from "@mui/material";
 
 import ListSubjects from "./components/ListSubjects";
-import MainTabs from "./components/MainTabs";
+import MainTabs from "./components/MainTabs/MainTabs";
 
 const App: React.FC = () => {
   return (
