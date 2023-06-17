@@ -5,24 +5,28 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 
 type TBasicCard = {
-  name:string;
-  description?:string;
-}
+  name: string;
+  description?: string;
+};
 
-const BasicCard:React.FC<TBasicCard> = ({name,description}) => {
+const BasicCard: React.FC<TBasicCard> = ({ name, description }) => {
   return (
-    <Card sx={{height:"20vh"}}>
+    <Card sx={{ height: "15vh", backgroundColor:"#2196f3", color:"white"}}>
       <CardContent>
-        <Typography variant="h5" component="div">
+        <Typography variant="h5" component="div" align="center">
           {name}
         </Typography>
-        <Typography variant="body1" component="div">
-          {description}
-        </Typography>
+        {description && (
+          <div>
+            <Typography variant="body1" component="div">
+              {description}
+            </Typography>
+            <CardActions>
+              <Button size="small">Читать дальше</Button>
+            </CardActions>
+          </div>
+        )}
       </CardContent>
-      <CardActions>
-        <Button size="small">Читать дальше</Button>
-      </CardActions>
     </Card>
   );
 };

@@ -22,7 +22,7 @@ export const subjectsSlices = createSlice({
     name:"subjects",
     initialState,
     reducers:{
-        setSubject:(state,action)=> {
+        setSubject:(state,action:PayloadAction<ISubject>)=> {
             state.title = action.payload.title;
             state.type = action.payload.type;
             state.cards = action.payload.cards;

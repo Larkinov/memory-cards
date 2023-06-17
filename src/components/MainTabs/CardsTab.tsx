@@ -11,11 +11,7 @@ const CardsTab: React.FC = () => {
   const {title, cards} = useSelector((state:RootState)=> state.subjects);
 
   React.useEffect(()=>{
-    
-  },[title])
-
-  console.log(title);
-  
+  },[title])  
 
   return (
     <Grid
