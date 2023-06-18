@@ -11,13 +11,18 @@ import {
   GameModeEnum,
   setTimer,
   setMode,
+  setFullPackage,
+  setCountCards,
 } from "../../redux/slices/SettingsSlice";
 import { useDispatch } from "react-redux";
 
-const ModeTab: React.FC = () => {
+const SettingsTab: React.FC = () => {
+  const [isFull, setIsFull] = React.useState<boolean>(true);
+  const lastCount = React.useRef(0);
+  const [count, setCount] = React.useState<number>(10);
   const [isTimer, setIsTimer] = React.useState<boolean>(false);
-  const lastTimer = React.useRef(0);
-  const [gameTime, setGameTime] = React.useState<number>(30);
+  const lastTimer = React.useRef(30);
+  const [gameTime, setGameTime] = React.useState<number>(120);
   const [gameMode, setGameMode] = React.useState<GameModeEnum>(
     GameModeEnum.MODE_READ
   );
@@ -32,7 +37,19 @@ const ModeTab: React.FC = () => {
       dispatch(setTimer(0));
     }
   };
+  const changeFullPackage = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setIsFull(e.target.checked);
+    if (e.target.checked) {
+      dispatch(setFullPackage(true));
+    } else {
+      dispatch(setFullPackage(false));
+    }
+  };
 
+  const changeCountCards = (event: Event, newValue: number | number[]) => {
+    setCount(newValue as number);
+    dispatch(setCountCards(newValue as number));
+  };
   const changeGameTime = (event: Event, newValue: number | number[]) => {
     let value = newValue as number;
     setGameTime(value);
@@ -72,6 +89,29 @@ const ModeTab: React.FC = () => {
         </FormControl>
       </Grid>
       <Grid item xs={12} md={6} xl={4} display="flex" direction="column">
+        <FormLabel component="legend">Количество слов</FormLabel>
+
+        <FormLabel component="legend" sx={{ mt: 0.5 }}>
+          <Switch checked={isFull} onChange={changeFullPackage} />
+          Весь пакет
+        </FormLabel>
+        <Stack spacing={2} direction="row" sx={{ mt: 0.5 }} alignItems="center">
+          <Typography>4</Typography>
+          <Slider
+            sx={{ width: "65%" }}
+            min={4}
+            max={50}
+            step={2}
+            disabled={isFull}
+            valueLabelDisplay="auto"
+            aria-label="Volume"
+            value={count}
+            onChange={changeCountCards}
+          />
+          <Typography>50</Typography>
+        </Stack>
+      </Grid>
+      <Grid item xs={12} md={6} xl={4} display="flex" direction="column">
         <FormLabel component="legend">Время</FormLabel>
         <Switch
           checked={isTimer}
@@ -84,19 +124,18 @@ const ModeTab: React.FC = () => {
             sx={{ width: "65%" }}
             min={30}
             max={600}
-            step={30}
+            step={15}
             disabled={!isTimer}
             valueLabelDisplay="auto"
             aria-label="Volume"
             value={gameTime}
             onChange={changeGameTime}
           />
-                    <Typography>600</Typography>
-
+          <Typography>600</Typography>
         </Stack>
       </Grid>
     </Grid>
   );
 };
 
-export default ModeTab;
+export default SettingsTab;

@@ -1,26 +1,21 @@
 import React from "react";
-import Header from "./components/Header";
-import Grid from "@mui/material/Grid/Grid";
-import { Box } from "@mui/material";
+import { Routes, Route } from "react-router-dom";
 
-import ListSubjects from "./components/ListSubjects";
-import MainTabs from "./components/MainTabs/MainTabs";
-
+import MainPage from "./components/pages/MainPage";
+import GamePage from "./components/pages/GamePage";
+import NotFoundPage from "./components/pages/NotFoundPage";
+import MainLayout from "./components/pages/MainLayout";
 const App: React.FC = () => {
   return (
-    <div>
-      <Header />
-      <Box height={"90vh"} mt={"10px"}>
-        <Grid
-          container
-          spacing={2}
-          height={"100%"}
-        >
-          <ListSubjects />
-          <MainTabs />
-        </Grid>
-      </Box>
-    </div>
+    <>
+      <Routes>
+        <Route path="/" element={<MainLayout />}>
+          <Route path="" element={<MainPage />} />
+          <Route path="game" element={<GamePage />} />
+          <Route path="*" element={<NotFoundPage />} />
+        </Route>
+      </Routes>
+    </>
   );
 };
 

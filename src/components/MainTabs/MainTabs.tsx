@@ -1,14 +1,16 @@
+import styles from "./MainTabs.module.scss";
 import React from "react";
+import { Link } from "react-router-dom";
+
 import Grid from "@mui/material/Grid/Grid";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
-import CardsTab from "./CardsTab";
-import ModeTab from "./ModeTab";
-
-import styles from "./MainTabs.module.scss";
 import { Button } from "@mui/material";
+
+import CardsTab from "./CardsTab";
+import SettingsTab from "./SettingsTab";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -44,8 +46,6 @@ function a11yProps(index: number) {
   };
 }
 
-
-
 const MainTabs: React.FC = () => {
   const [value, setValue] = React.useState(1);
 
@@ -69,9 +69,15 @@ const MainTabs: React.FC = () => {
             onChange={handleChange}
             aria-label="basic tabs example"
           >
-            <Button color="success" variant="contained">
-              Начать
-            </Button>
+            <Link
+              to={"game"}
+              style={{ textDecoration: "none", color: "inherit", marginTop:"10px" }}
+            >
+              <Button color="success" variant="contained">
+                Начать
+              </Button>
+            </Link>
+
             <Tab label="Карточки" {...a11yProps(1)} />
             <Tab label="Настройки" {...a11yProps(2)} />
             <Tab label="Редактировать" {...a11yProps(3)} />
@@ -81,7 +87,7 @@ const MainTabs: React.FC = () => {
           <CardsTab />
         </TabPanel>
         <TabPanel value={value} index={2}>
-          <ModeTab />
+          <SettingsTab />
         </TabPanel>
         <TabPanel value={value} index={3}>
           Item Three
