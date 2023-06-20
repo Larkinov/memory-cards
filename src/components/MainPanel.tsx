@@ -1,43 +1,15 @@
-import styles from "./MainTabs.module.scss";
 import React from "react";
 import { Link } from "react-router-dom";
 
 import Grid from "@mui/material/Grid/Grid";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
-import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import { Button } from "@mui/material";
 
-import CardsTab from "./CardsTab";
-import SettingsTab from "./SettingsTab";
-
-interface TabPanelProps {
-  children?: React.ReactNode;
-  index: number;
-  value: number;
-}
-
-function TabPanel(props: TabPanelProps) {
-  const { children, value, index, ...other } = props;
-
-  return (
-    <div
-      role="tabpanel"
-      hidden={value !== index}
-      id={`simple-tabpanel-${index}`}
-      aria-labelledby={`simple-tab-${index}`}
-      {...other}
-      className={styles.tabPanel}
-    >
-      {value === index && (
-        <Box sx={{ p: 3 }}>
-          <Typography>{children}</Typography>
-        </Box>
-      )}
-    </div>
-  );
-}
+import CardsTab from "./Tabs/CardsTab";
+import SettingsTab from "./Tabs/SettingsTab";
+import TabPanel from "./Tabs/TabPanel";
 
 function a11yProps(index: number) {
   return {
@@ -46,7 +18,7 @@ function a11yProps(index: number) {
   };
 }
 
-const MainTabs: React.FC = () => {
+const MainPanel: React.FC = () => {
   const [value, setValue] = React.useState(1);
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
@@ -71,7 +43,11 @@ const MainTabs: React.FC = () => {
           >
             <Link
               to={"game"}
-              style={{ textDecoration: "none", color: "inherit", marginTop:"10px" }}
+              style={{
+                textDecoration: "none",
+                color: "inherit",
+                marginTop: "10px",
+              }}
             >
               <Button color="success" variant="contained">
                 Начать
@@ -90,11 +66,11 @@ const MainTabs: React.FC = () => {
           <SettingsTab />
         </TabPanel>
         <TabPanel value={value} index={3}>
-          Item Three
+          Страница "Редактировать"
         </TabPanel>
       </Grid>
     </Grid>
   );
 };
 
-export default MainTabs;
+export default MainPanel;

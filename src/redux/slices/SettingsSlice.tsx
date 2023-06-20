@@ -11,6 +11,7 @@ export interface ISettings{
     timer:number;
     countCards:number;
     fullPackage:boolean;
+    randomCards:boolean;
 }
 
 const initialState:ISettings = {
@@ -18,6 +19,7 @@ const initialState:ISettings = {
     timer:120,
     countCards:10,
     fullPackage:true,
+    randomCards:false,
 } 
 
 export const settingsSlice = createSlice({
@@ -35,10 +37,13 @@ export const settingsSlice = createSlice({
         },
         setFullPackage:(state,action:PayloadAction<boolean>)=> {
             state.fullPackage = action.payload;
+        },
+        setRandomCards:(state,action:PayloadAction<boolean>)=> {
+            state.randomCards = action.payload;
         }
     },
 })
 
-export const {setMode, setTimer, setCountCards, setFullPackage} = settingsSlice.actions;
+export const {setMode, setTimer, setCountCards, setFullPackage, setRandomCards} = settingsSlice.actions;
 
 export default settingsSlice.reducer;

@@ -26,7 +26,7 @@ const ReadMode: React.FC<ReadModeProps> = ({ cards, endGame }) => {
 
   return (
     <>
-      <Grid item xs={12} sx={{ zIndex: 1, m: "20%" }}>
+      <Grid item xs={12} sx={{ zIndex: 1, m: "20%", mt:"10%" }}>
         {cards.length && (
           <BasicCard
             name={cards[iter].name}

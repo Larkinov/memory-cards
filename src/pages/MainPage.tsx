@@ -1,10 +1,8 @@
 import React from "react";
 import ListSubjects from "../components/ListSubjects";
-import MainTabs from "../components/Tabs/MainTabs";
+import MainTabs from "../components/MainPanel";
 
-import { useDispatch } from "react-redux";
 import data from "../DefaultCardsData.json";
-import { setSubject } from "../redux/slices/SubjectsSlice";
 
 
 const MainPage: React.FC = () => {

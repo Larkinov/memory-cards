@@ -19,7 +19,17 @@ type TBasicCard = {
 
 const BasicCard: React.FC<TBasicCard> = ({ name, height, description }) => {
   return (
-    <Card sx={{ height: height, backgroundColor:"#2196f3", color:"white", width:"100%"}}>
+    <Card
+      sx={{
+        height: height,
+        backgroundColor: "#2196f3",
+        color: "white",
+        width: "100%",
+        alignItems: "center",
+        justifyContent: "center",
+        display: "flex",
+      }}
+    >
       <CardContent>
         <Typography variant="h5" component="div" align="center">
           {name}

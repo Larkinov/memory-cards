@@ -8,7 +8,7 @@ import { RootState } from "../../redux/store";
 
 const CardsTab: React.FC = () => {
 
-  const {title, cards} = useSelector((state:RootState)=> state.subjects);
+  const {cards} = useSelector((state:RootState)=> state.subjects);
 
   React.useEffect(()=>{
   },[cards])  
