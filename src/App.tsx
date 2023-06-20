@@ -1,10 +1,10 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
 
-import MainPage from "./components/pages/MainPage";
-import GamePage from "./components/pages/GamePage";
-import NotFoundPage from "./components/pages/NotFoundPage";
-import MainLayout from "./components/pages/MainLayout";
+import MainPage from "./pages/MainPage";
+import GamePage from "./pages/GamePage";
+import NotFoundPage from "./pages/NotFoundPage";
+import MainLayout from "./pages/MainLayout";
 const App: React.FC = () => {
   return (
     <>

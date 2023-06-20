@@ -4,14 +4,22 @@ import CardContent from "@mui/material/CardContent";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 
+export enum HeightCard {
+  SMALL = "10vh",
+  MEDIUM = "15vh",
+  LARGE = "20vh",
+  HEAVY = "25vh",
+}
+
 type TBasicCard = {
   name: string;
   description?: string;
+  height: HeightCard;
 };
 
-const BasicCard: React.FC<TBasicCard> = ({ name, description }) => {
+const BasicCard: React.FC<TBasicCard> = ({ name, height, description }) => {
   return (
-    <Card sx={{ height: "15vh", backgroundColor:"#2196f3", color:"white"}}>
+    <Card sx={{ height: height, backgroundColor:"#2196f3", color:"white", width:"100%"}}>
       <CardContent>
         <Typography variant="h5" component="div" align="center">
           {name}

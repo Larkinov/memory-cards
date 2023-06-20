@@ -3,7 +3,7 @@ import Grid from "@mui/material/Grid/Grid";
 
 import {useSelector} from "react-redux";
 
-import BasicCard from "../BasicCard";
+import BasicCard, { HeightCard } from "../BasicCard";
 import { RootState } from "../../redux/store";
 
 const CardsTab: React.FC = () => {
@@ -11,7 +11,7 @@ const CardsTab: React.FC = () => {
   const {title, cards} = useSelector((state:RootState)=> state.subjects);
 
   React.useEffect(()=>{
-  },[title])  
+  },[cards])  
 
   return (
     <Grid
@@ -23,7 +23,7 @@ const CardsTab: React.FC = () => {
     >
       {cards.map((elem,index)=>(
         <Grid item xs={4}>
-        <BasicCard name={elem.name} key={index}/>
+        <BasicCard name={elem.name} key={index} height={HeightCard.MEDIUM}/>
       </Grid>
       ))}
       
