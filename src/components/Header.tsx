@@ -14,7 +14,9 @@ const Header: React.FC = () => {
       <AppBar position="static">
         <Toolbar>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            <Link to={"/"} style={{textDecoration:"none", color:"inherit" }}>Memory Cards</Link>
+            <Link to={"/"} style={{ textDecoration: "none", color: "inherit" }}>
+              Memory Cards
+            </Link>
           </Typography>
 
           <IconButton

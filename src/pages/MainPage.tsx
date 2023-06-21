@@ -11,8 +11,8 @@ const MainPage: React.FC = () => {
 
   const firstLoading = () => {
     if (localStorage.getItem("first") === "1") {
-      console.log("yes!");
-      console.log(data.data[0]);
+      // console.log("yes!");
+      // console.log(data.data[0]);
       
     } else {
       localStorage.setItem("first", "1");
