@@ -3,47 +3,59 @@ import Grid from "@mui/material/Grid/Grid";
 import FormLabel from "@mui/material/FormLabel";
 import { Switch, Slider, Stack, Typography } from "@mui/material";
 
-import { setTimer, GameModeEnum } from "../../redux/slices/SettingsSlice";
+import { setTimer, GameModeEnum, setIsTime } from "../../redux/slices/SettingsSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
+import { setIsTimeSetting, setTimeSetting } from "../../utils/localSettings";
 
 const Timer: React.FC = () => {
-  
-  const [isTimer, setIsTimer] = React.useState<boolean>(false);
-  const lastIsTimer = React.useRef(false);
-  const lastTime = React.useRef(30);
-  const [gameTime, setGameTime] = React.useState<number>(120);
+  const {gameMode, isTime, timer} = useSelector((state:RootState)=>state.settings);
+
+  const [isTimerState, setIsTimerState] = React.useState<boolean>(isTime);
+  const lastIsTimerState = React.useRef(isTime);
+  const lastTime = React.useRef(timer);
+  const [gameTime, setGameTime] = React.useState<number>(timer);
 
   const dispatch = useDispatch();
-  const gameMode = useSelector((state:RootState)=>state.settings.gameMode);
   const [isReadMode, setIsReadMode] = React.useState(true);
 
   const changeIsTimer = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setIsTimer(e.target.checked);
-    lastIsTimer.current = e.target.checked;
+    setIsTimerState(e.target.checked);
+    setIsTimeSetting(e.target.checked);
+    dispatch(setIsTime(e.target.checked));
+    lastIsTimerState.current = e.target.checked;
     if (e.target.checked) {
       dispatch(setTimer(lastTime.current));
+      setTimeSetting(lastTime.current);
     } else {
       dispatch(setTimer(0));
+      setTimeSetting(0);
     }
   };
 
   const changeGameTime = (event: Event, newValue: number | number[]) => {
     let value = newValue as number;
     setGameTime(value);
+    setTimeSetting(value);
     dispatch(setTimer(value));
     lastTime.current = value;
   };
 
   React.useEffect(()=>{
-    if(gameMode===GameModeEnum.MODE_READ){
+    if(gameMode===GameModeEnum.MODE_READ){      
       setIsReadMode(true);
-      setIsTimer(false);
+      setIsTimerState(false);
+      setIsTimeSetting(false);
+      setTimeSetting(0);
       dispatch(setTimer(0));
+      dispatch(setIsTime(false));
     }else{
       setIsReadMode(false);
-      setIsTimer(lastIsTimer.current);
+      setIsTimerState(lastIsTimerState.current);
+      setIsTimeSetting(lastIsTimerState.current);
       dispatch(setTimer(lastTime.current));
+      setTimeSetting(lastTime.current);
+      dispatch(setIsTime(lastIsTimerState.current));
     }
   },[gameMode])
 
@@ -53,7 +65,7 @@ const Timer: React.FC = () => {
         <FormLabel component="legend">Время</FormLabel>
         <Switch
         disabled={isReadMode}
-          checked={isTimer}
+          checked={isTimerState}
           onChange={changeIsTimer}
           sx={{ mb: "0.5rem" }}
         />
@@ -64,7 +76,7 @@ const Timer: React.FC = () => {
             min={30}
             max={600}
             step={15}
-            disabled={!isTimer}
+            disabled={!isTimerState}
             valueLabelDisplay="auto"
             aria-label="Volume"
             value={gameTime}

@@ -1,11 +1,18 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
+import { useDispatch } from "react-redux";
 
 import MainPage from "./pages/MainPage";
 import GamePage from "./pages/GamePage";
 import NotFoundPage from "./pages/NotFoundPage";
 import MainLayout from "./pages/MainLayout";
+import { loadingSettings } from "./utils/localSettings";
+
 const App: React.FC = () => {
+  const dispatch = useDispatch();
+  React.useEffect(() => {
+    loadingSettings(dispatch);
+  }, []);
   return (
     <>
       <Routes>

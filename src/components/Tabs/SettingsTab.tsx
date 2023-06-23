@@ -19,4 +19,4 @@ const SettingsTab: React.FC = () => {
   );
 };
 
-export default SettingsTab;
+export default React.memo(SettingsTab);

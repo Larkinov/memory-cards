@@ -7,16 +7,22 @@ import {
   setFullPackage,
   setCountCards,
 } from "../../redux/slices/SettingsSlice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../../redux/store";
+import { setCountCardsSetting, setPackageSetting } from "../../utils/localSettings";
 
 const CountCard: React.FC = () => {
-  const [isFull, setIsFull] = React.useState<boolean>(true);
-  const [count, setCount] = React.useState<number>(10);
+
+const {fullPackage,countCards} = useSelector((state:RootState)=>state.settings);
+
+  const [isFull, setIsFull] = React.useState<boolean>(fullPackage);
+  const [count, setCount] = React.useState<number>(countCards);
 
   const dispatch = useDispatch();
 
   const changeFullPackage = (e: React.ChangeEvent<HTMLInputElement>) => {
     setIsFull(e.target.checked);
+    setPackageSetting(e.target.checked);
     if (e.target.checked) {
       dispatch(setFullPackage(true));
     } else {
@@ -26,6 +32,7 @@ const CountCard: React.FC = () => {
 
   const changeCountCards = (event: Event, newValue: number | number[]) => {
     setCount(newValue as number);
+    setCountCardsSetting(newValue as number);
     dispatch(setCountCards(newValue as number));
   };
   return (

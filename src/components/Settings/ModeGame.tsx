@@ -7,17 +7,21 @@ import FormControl from "@mui/material/FormControl";
 import FormLabel from "@mui/material/FormLabel";
 
 import { GameModeEnum, setMode } from "../../redux/slices/SettingsSlice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../../redux/store";
+import { setModeSetting } from "../../utils/localSettings";
 
 const ModeGame: React.FC = () => {
+  const { gameMode } = useSelector((state: RootState) => state.settings);
+
   const dispatch = useDispatch();
-  const [gameMode, setGameMode] = React.useState<GameModeEnum>(
-    GameModeEnum.MODE_READ
-  );
+  const [gameModeState, setGameModeState] =
+    React.useState<GameModeEnum>(gameMode);
 
   const changeModeGame = (e: React.ChangeEvent<HTMLInputElement>) => {
     let mode = (e.target as HTMLInputElement).value as GameModeEnum;
-    setGameMode(mode);
+    setGameModeState(mode);
+    setModeSetting(mode)
     dispatch(setMode(mode));
   };
 
@@ -30,7 +34,7 @@ const ModeGame: React.FC = () => {
             aria-labelledby="mode-game"
             defaultValue={GameModeEnum.MODE_READ}
             name="mode-game"
-            value={gameMode}
+            value={gameModeState}
             onChange={changeModeGame}
           >
             <FormControlLabel

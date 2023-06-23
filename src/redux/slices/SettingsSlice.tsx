@@ -9,6 +9,7 @@ export enum GameModeEnum {
 export interface ISettings{
     gameMode:GameModeEnum,
     timer:number;
+    isTime:boolean;
     countCards:number;
     fullPackage:boolean;
     randomCards:boolean;
@@ -17,6 +18,7 @@ export interface ISettings{
 const initialState:ISettings = {
     gameMode:GameModeEnum.MODE_READ,
     timer:120,
+    isTime:false,
     countCards:10,
     fullPackage:true,
     randomCards:false,
@@ -40,10 +42,13 @@ export const settingsSlice = createSlice({
         },
         setRandomCards:(state,action:PayloadAction<boolean>)=> {
             state.randomCards = action.payload;
+        },
+        setIsTime:(state,action:PayloadAction<boolean>)=> {
+            state.isTime = action.payload;
         }
     },
 })
 
-export const {setMode, setTimer, setCountCards, setFullPackage, setRandomCards} = settingsSlice.actions;
+export const {setMode, setIsTime, setTimer, setCountCards, setFullPackage, setRandomCards} = settingsSlice.actions;
 
 export default settingsSlice.reducer;
