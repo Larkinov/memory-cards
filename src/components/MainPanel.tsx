@@ -68,6 +68,9 @@ const MainPanel: React.FC = () => {
         <TabPanel value={value} index={3}>
           Страница "Редактировать"
         </TabPanel>
+        <TabPanel value={value} index={4}>
+          Страница "Редактировать"
+        </TabPanel>
       </Grid>
     </Grid>
   );

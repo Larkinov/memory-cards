@@ -1,20 +1,16 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
-
-export type Card = {
-    name:string;
-    description?:string;
-}
+import { Card, TypePackageEnum } from "./PackageSlice";
 
 export interface ISubject{
     title: string;
-    type:string;
+    type:TypePackageEnum;
     cards:Card[];
 }
 
 const initialState:ISubject = {
     title:"",
-    type:"",
+    type:TypePackageEnum.SIMPLE_PACK,
     cards:[],
 } 
 

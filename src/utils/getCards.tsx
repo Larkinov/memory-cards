@@ -1,4 +1,4 @@
-import { Card } from "../redux/slices/SubjectsSlice";
+import { Card } from "../redux/slices/PackageSlice";
 
 export const getCards = (
   cards: Card[],

@@ -1,5 +1,5 @@
 import React from "react";
-import { Card } from "../../redux/slices/SubjectsSlice";
+import { Card } from "../../redux/slices/PackageSlice";
 import { Button, Grid } from "@mui/material";
 import BasicCard, { HeightCard } from "../BasicCard";
 

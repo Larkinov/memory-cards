@@ -2,7 +2,7 @@
     "data":[
         {
             "title":"Простой пакет №1",
-            "type":"others",
+            "type":"SIMPLE_PACK",
             "cards":[
                 {
                     "name":"бриджи"

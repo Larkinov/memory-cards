@@ -1,5 +1,5 @@
 import React from "react";
-import {useDispatch} from "react-redux";
+import { useDispatch } from "react-redux";
 
 import Grid from "@mui/material/Grid/Grid";
 import List from "@mui/material/List/List";
@@ -10,15 +10,20 @@ import IconButton from "@mui/material/IconButton";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 
 import data from "../DefaultCardsData.json";
+import AddPackage from "./AddPackage/AddPackage";
 import { ISubject, setSubject } from "../redux/slices/SubjectsSlice";
 
 const ListSubjects: React.FC = () => {
-
   const dispatch = useDispatch();
+  const [open, setOpen] = React.useState(false);
 
-  const onClickSubject = (pack:ISubject) => {
-    dispatch(setSubject(pack));
-  }
+  const onClickSubject = (elem:ISubject) => {
+    dispatch(setSubject(elem));
+  };
+
+  const openAddPanel = () => {
+    setOpen(true);
+  };
 
   return (
     <Grid item xl={2} md={3} xs={4} sx={{ height: "100%" }}>
@@ -27,7 +32,7 @@ const ListSubjects: React.FC = () => {
       >
         {data.data.map((elem, index) => (
           <ListItem disablePadding key={index}>
-            <ListItemButton onClick={()=> onClickSubject(elem)}>
+            <ListItemButton onClick={() => onClickSubject(elem as ISubject)}>
               <ListItemText primary={elem.title} />
             </ListItemButton>
           </ListItem>
@@ -38,11 +43,13 @@ const ListSubjects: React.FC = () => {
             size="large"
             color="success"
             sx={{ position: "absolute", left: "40%", top: "40%" }}
+            onClick={() => openAddPanel()}
           >
             <AddCircleIcon />
           </IconButton>
         </ListItem>
       </List>
+      <AddPackage isOpen={open} setOpen={setOpen} />
     </Grid>
   );
 };
