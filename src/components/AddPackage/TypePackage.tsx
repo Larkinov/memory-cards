@@ -22,7 +22,7 @@ const TypePackage: React.FC = () => {
 
   return (
     <>
-      <FormLabel id="type-package">Тип пакета</FormLabel>
+      <FormLabel id="type-package">Тип карточки</FormLabel>
       <RadioGroup
         aria-labelledby="type-package"
         name="type-package"

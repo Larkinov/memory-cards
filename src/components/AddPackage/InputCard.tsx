@@ -1,7 +1,9 @@
 import { TextField } from "@mui/material";
 import React from "react";
 import { useDispatch } from "react-redux";
-import { setThisId, setThisName } from "../../redux/slices/PackageSlice";
+import { setThisName } from "../../redux/slices/PackageSlice";
+import { useSelector } from "react-redux";
+import { RootState } from "../../redux/store";
 
 type InputProps = {
   id:number;
@@ -10,6 +12,7 @@ type InputProps = {
 const InputCardName: React.FC<InputProps> = ({id}) => {
   const dispatch = useDispatch();
   const [value, setValue] = React.useState("");
+  const {cards} = useSelector((state:RootState)=>state.package);
 
   const onChangeInput = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -18,18 +21,17 @@ const InputCardName: React.FC<InputProps> = ({id}) => {
     dispatch(setThisName(e.target.value))
   };
 
-  const onFocusInput = () => {
-    dispatch(setThisId(id));
-  }
+  React.useEffect(()=>{
+    setValue("");    
+  },[cards])
 
   return (
     <>
       <TextField
         label={"Название карточки"}
-        sx={{ m: "10px" }}
+        sx={{ m: "10px", }}
         onChange={onChangeInput}
         value={value}
-        onFocus={onFocusInput}
       />
     </>
   );

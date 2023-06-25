@@ -36,7 +36,7 @@ const BasicCard: React.FC<TBasicCard> = ({ name, height, description }) => {
         </Typography>
         {description && (
           <div>
-            <Typography variant="body1" component="div">
+            <Typography variant="body1" component="div" noWrap={true}>
               {description}
             </Typography>
             <CardActions>

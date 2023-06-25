@@ -12,6 +12,16 @@ import { useDispatch } from "react-redux";
 import { Card } from "../../redux/slices/PackageSlice";
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
+import ListItemText from '@mui/material/ListItemText';
+import ListItem from '@mui/material/ListItem';
+import List from '@mui/material/List';
+import Divider from '@mui/material/Divider';
+import AppBar from '@mui/material/AppBar';
+import Toolbar from '@mui/material/Toolbar';
+import IconButton from '@mui/material/IconButton';
+import Typography from '@mui/material/Typography';
+import CloseIcon from '@mui/icons-material/Close';
+import Transition from "./Transition";
 
 type AddPackageProps = {
   isOpen: boolean;
@@ -28,17 +38,29 @@ const AddPackage: React.FC<AddPackageProps> = ({ isOpen, setOpen }) => {
 
   return (
     <div>
-      <Dialog open={isOpen} onClose={handleClose}>
-        <DialogTitle id="alert-dialog-title">
-          Добавление нового пакета
-        </DialogTitle>
+      <Dialog open={isOpen} onClose={handleClose}
+       fullScreen
+       TransitionComponent={Transition}>
+        <AppBar sx={{ position: 'relative' }}>
+          <Toolbar>
+            <IconButton
+              edge="start"
+              color="inherit"
+              onClick={handleClose}
+              aria-label="close"
+            >
+              <CloseIcon />
+            </IconButton>
+            <Typography variant="h6"> Добавление нового пакета</Typography>
+          </Toolbar>
+        </AppBar>
         <DialogContent>
           <FormControl>
             <InputPackageName />
             <TypePackage />
             <ListCards />
           </FormControl>
-          <DialogActions>
+          <DialogActions sx={{display:"flex", justifyContent:"start"}}>
             <Button onClick={handleClose} autoFocus>
               Продолжить
             </Button>
@@ -50,3 +72,5 @@ const AddPackage: React.FC<AddPackageProps> = ({ isOpen, setOpen }) => {
 };
 
 export default AddPackage;
+
+        

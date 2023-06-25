@@ -16,8 +16,8 @@ export interface IPackage {
   name: string;
   type: TypePackageEnum;
   cards: Card[];
-  thisId?: number|undefined;
-  thisName?: string;
+  thisId: number;
+  thisName: string;
   thisDesc?: string;
 }
 

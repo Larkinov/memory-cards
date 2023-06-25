@@ -1,7 +1,9 @@
 import { TextField } from "@mui/material";
 import React from "react";
 import { useDispatch } from "react-redux";
-import { setThisDesc, setThisId } from "../../redux/slices/PackageSlice";
+import { setThisDesc } from "../../redux/slices/PackageSlice";
+import { useSelector } from "react-redux";
+import { RootState } from "../../redux/store";
 
 type InputProps = {
   id: number;
@@ -9,6 +11,7 @@ type InputProps = {
 
 const InputDescription: React.FC<InputProps> = ({ id }) => {
   const dispatch = useDispatch();
+  const {cards} = useSelector((state:RootState)=>state.package);
   const [value, setValue] = React.useState("");
 
   const onChangeInput = (
@@ -17,9 +20,11 @@ const InputDescription: React.FC<InputProps> = ({ id }) => {
     setValue(e.target.value);
     dispatch(setThisDesc(e.target.value));
   };
-  const onFocusInput = () => {
-    dispatch(setThisId(id));
-  };
+
+
+  React.useEffect(()=>{
+    setValue("");    
+  },[cards])
 
   return (
     <>
@@ -28,7 +33,6 @@ const InputDescription: React.FC<InputProps> = ({ id }) => {
         sx={{ m: "10px" }}
         onChange={onChangeInput}
         value={value}
-        onFocus={onFocusInput}
       />
     </>
   );
