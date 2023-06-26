@@ -3,7 +3,7 @@ import {useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
 import { TypePackageEnum } from "../../redux/slices/PackageSlice";
 import Forms from "./Forms";
-import BasicCard, { HeightCard } from "../BasicCard";
+import BasicCard, { HeightCard, WidthCard } from "../BasicCard";
 import { Grid, Typography } from "@mui/material";
 
 type ListProps = {
@@ -58,6 +58,8 @@ const ListCards: React.FC<ListProps> = ({isError}) => {
                 description={elem.description}
                 height={HeightCard.MEDIUM}
                 withButton={false}
+                width={WidthCard.FULL}
+                id={elem.id}
               />
             </Grid>
           ))}

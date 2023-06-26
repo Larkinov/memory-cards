@@ -11,12 +11,13 @@ import { useDispatch } from "react-redux";
 import { clearInitialState } from "../../redux/slices/PackageSlice";
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
-import AppBar from '@mui/material/AppBar';
-import Toolbar from '@mui/material/Toolbar';
-import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
-import CloseIcon from '@mui/icons-material/Close';
+import AppBar from "@mui/material/AppBar";
+import Toolbar from "@mui/material/Toolbar";
+import IconButton from "@mui/material/IconButton";
+import Typography from "@mui/material/Typography";
+import CloseIcon from "@mui/icons-material/Close";
 import Transition from "./Transition";
+import { ISubject, setSubject } from "../../redux/slices/SubjectsSlice";
 
 type AddPackageProps = {
   isOpen: boolean;
@@ -25,41 +26,48 @@ type AddPackageProps = {
 
 const AddPackage: React.FC<AddPackageProps> = ({ isOpen, setOpen }) => {
   const dispatch = useDispatch();
-  const {cards, name} = useSelector((state:RootState)=>state.package);
+  const { cards, name,type } = useSelector((state: RootState) => state.package);
   const [errorName, setErrorName] = React.useState(false);
   const [errorCards, setErrorCards] = React.useState(false);
   const handleClose = () => {
     dispatch(clearInitialState());
+    setErrorCards(false);
+    setErrorName(false);
     setOpen(false);
   };
 
   const onClickContinue = () => {
-      if(name && cards.length>0){
-        dispatch(clearInitialState());
-        handleClose();
-      }else{
-        if(!name){
-          setErrorName(true);
-        }
-
-        if(cards.length===0){
-            setErrorCards(true);
-        }
+    if (name && cards.length > 0) {
+      setErrorCards(false);
+      setErrorName(false);
+      setOpen(false);
+      dispatch(setSubject({title:name, cards:cards, type:type} as ISubject));
+    } else {
+      if (!name) {
+        setErrorName(true);
       }
-  }
 
-  React.useEffect(()=>{
-    if(cards.length>0){
+      if (cards.length === 0) {
+        setErrorCards(true);
+      }
+    }
+  };
+
+  React.useEffect(() => {
+    if (cards.length > 0) {
       setErrorCards(false);
     }
-  },[cards])
+  }, [cards]);
 
   return (
     <div>
-      <Dialog open={isOpen} onClose={handleClose}
-       fullScreen
-       TransitionComponent={Transition}>
-        <AppBar sx={{ position: 'relative' }}>
+      <Dialog
+        open={isOpen}
+        onClose={handleClose}
+        fullScreen
+        TransitionComponent={Transition}
+      >
+        <AppBar sx={{ position: "relative" }}>
           <Toolbar>
             <IconButton
               edge="start"
@@ -74,11 +82,14 @@ const AddPackage: React.FC<AddPackageProps> = ({ isOpen, setOpen }) => {
         </AppBar>
         <DialogContent>
           <FormControl>
-            <InputPackageName isError={errorName} onFocus={()=>setErrorName(false)}/>
+            <InputPackageName
+              isError={errorName}
+              onFocus={() => setErrorName(false)}
+            />
             <TypePackage />
-            <ListCards isError={errorCards}/>
+            <ListCards isError={errorCards} />
           </FormControl>
-          <DialogActions sx={{display:"flex", justifyContent:"start"}}>
+          <DialogActions sx={{ display: "flex", justifyContent: "start" }}>
             <Button onClick={onClickContinue} autoFocus>
               Создать пакет
             </Button>
@@ -90,5 +101,3 @@ const AddPackage: React.FC<AddPackageProps> = ({ isOpen, setOpen }) => {
 };
 
 export default AddPackage;
-
-        

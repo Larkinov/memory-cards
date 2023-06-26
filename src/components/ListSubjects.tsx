@@ -12,9 +12,13 @@ import AddCircleIcon from "@mui/icons-material/AddCircle";
 import data from "../DefaultCardsData.json";
 import AddPackage from "./AddPackage/AddPackage";
 import { ISubject, setSubject } from "../redux/slices/SubjectsSlice";
+import { clearInitialState } from "../redux/slices/PackageSlice";
+import { useSelector } from "react-redux";
+import { RootState } from "../redux/store";
 
 const ListSubjects: React.FC = () => {
   const dispatch = useDispatch();
+  const {cards} = useSelector((state:RootState)=>state.subjects);
   const [open, setOpen] = React.useState(false);
 
   const onClickSubject = (elem:ISubject) => {
@@ -23,6 +27,7 @@ const ListSubjects: React.FC = () => {
 
   const openAddPanel = () => {
     setOpen(true);
+    dispatch(clearInitialState());
   };
 
   return (
@@ -37,6 +42,13 @@ const ListSubjects: React.FC = () => {
             </ListItemButton>
           </ListItem>
         ))}
+        {/* {cards.map((elem) => (
+          <ListItem disablePadding key={elem.id}>
+            <ListItemButton onClick={() => onClickSubject({title:elem.name,} as ISubject)}>
+              <ListItemText primary={elem.title} />
+            </ListItemButton>
+          </ListItem>
+        ))} */}
 
         <ListItem disablePadding>
           <IconButton

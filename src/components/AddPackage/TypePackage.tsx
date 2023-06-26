@@ -6,13 +6,18 @@ import FormLabel from "@mui/material/FormLabel";
 
 import { useDispatch } from "react-redux";
 import { TypePackageEnum, setType } from "../../redux/slices/PackageSlice";
+import { useSelector } from "react-redux";
+import { RootState } from "../../redux/store";
+import { Button, Tooltip } from "@mui/material";
+import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 
 const TypePackage: React.FC = () => {
-
   const dispatch = useDispatch();
+  const { cards } = useSelector((state: RootState) => state.package);
   const [value, setValue] = React.useState<TypePackageEnum>(
     TypePackageEnum.SIMPLE_PACK
   );
+  const [isDisabled, setIsDisabled] = React.useState(false);
 
   const changeTypePackage = (e: React.ChangeEvent<HTMLInputElement>) => {
     let type = (e.target as HTMLInputElement).value as TypePackageEnum;
@@ -20,25 +25,45 @@ const TypePackage: React.FC = () => {
     dispatch(setType(type));
   };
 
+  React.useEffect(() => {
+    if (cards.length > 0) {
+      setIsDisabled(true);
+    } else {
+      setIsDisabled(false);
+    }
+  }, [cards]);
+
   return (
     <>
-      <FormLabel id="type-package">Тип карточки</FormLabel>
+      <div>
+        <FormLabel id="type-package">Тип пакета</FormLabel>
+        <Tooltip
+          disableFocusListener
+          title="Если в пакете есть карточка, то тип пакета нельзя поменять"
+        >
+          <Button sx={{ zIndex: "1" }}>
+            <InfoOutlinedIcon color="primary" />
+          </Button>
+        </Tooltip>
+      </div>
       <RadioGroup
         aria-labelledby="type-package"
         name="type-package"
         value={value}
         onChange={changeTypePackage}
-        sx={{mb:"15px"}}
+        sx={{ mb: "15px" }}
       >
         <FormControlLabel
           value={TypePackageEnum.SIMPLE_PACK}
           control={<Radio />}
           label="Только название"
+          disabled={isDisabled}
         />
         <FormControlLabel
           value={TypePackageEnum.WITH_DESCRIPTION}
           control={<Radio />}
           label="Слова с описанием"
+          disabled={isDisabled}
         />
       </RadioGroup>
     </>

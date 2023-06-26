@@ -44,7 +44,14 @@ export const PackageSlice = createSlice({
       state.cards.push(action.payload);
     },
     removeCard: (state, action: PayloadAction<number>) => {
-      state.cards.splice(action.payload, 1);
+      let x = state.cards.filter((elem)=>{
+        if(elem.id===action.payload){
+          return false;
+        } else{
+          return true;
+        }
+      })
+      state.cards = x;
     },
 
     setThisId: (state, action: PayloadAction<number>) => {

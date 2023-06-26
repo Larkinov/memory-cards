@@ -1,7 +1,7 @@
 import React from "react";
 import { Card } from "../../redux/slices/PackageSlice";
 import { Button, Grid } from "@mui/material";
-import BasicCard, { HeightCard } from "../BasicCard";
+import BasicCard, { HeightCard, WidthCard } from "../BasicCard";
 
 type ReadModeProps = {
   cards: Card[];
@@ -33,6 +33,7 @@ const ReadMode: React.FC<ReadModeProps> = ({ cards, endGame }) => {
             key={cards[iter].name}
             height={HeightCard.HEAVY}
             withButton={true}
+            width={WidthCard.FULL}
           />
         )}
       </Grid>

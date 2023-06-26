@@ -3,7 +3,7 @@ import Grid from "@mui/material/Grid/Grid";
 
 import { useSelector } from "react-redux";
 
-import BasicCard, { HeightCard } from "../BasicCard";
+import BasicCard, { HeightCard, WidthCard } from "../BasicCard";
 import { RootState } from "../../redux/store";
 
 const CardsTab: React.FC = () => {
@@ -20,6 +20,7 @@ const CardsTab: React.FC = () => {
             withButton={true}
             key={elem.id}
             height={HeightCard.MEDIUM}
+            width={WidthCard.FULL}
           />
         </Grid>
       ))}
