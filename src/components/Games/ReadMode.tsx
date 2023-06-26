@@ -32,6 +32,7 @@ const ReadMode: React.FC<ReadModeProps> = ({ cards, endGame }) => {
             name={cards[iter].name}
             key={cards[iter].name}
             height={HeightCard.HEAVY}
+            withButton={true}
           />
         )}
       </Grid>

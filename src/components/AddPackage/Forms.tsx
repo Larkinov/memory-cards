@@ -1,5 +1,4 @@
 import React from "react";
-import ListItem from "@mui/material/ListItem/ListItem";
 import IconButton from "@mui/material/IconButton";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import { Stack } from "@mui/material";
@@ -26,6 +25,8 @@ const Forms: React.FC<FormProps> = ({ withDesc,}) => {
   const dispatch = useDispatch();
   const { thisId, thisName, thisDesc} = useSelector((state: RootState) => state.package);
 
+  const [errorName, setErrorName] = React.useState(false);
+  const [errorDesc, setErrorDesc] = React.useState(false);
   const addCard = () => {
     let card: Card = { name: thisName , id: thisId, description:thisDesc};
 
@@ -44,10 +45,19 @@ const Forms: React.FC<FormProps> = ({ withDesc,}) => {
         if (card.description) {
           dispatchCard();
           dispatch(setThisId(thisId+1));
+        }else{
+          setErrorDesc(true);
         }
+      }
+    }else{
+      setErrorName(true);
+      if(card.description){
+        setErrorDesc(true);
       }
     }
   };
+
+
   return (
     <>
       <Stack
@@ -57,8 +67,8 @@ const Forms: React.FC<FormProps> = ({ withDesc,}) => {
         sx={{ mb: "10px" }}
       >
         <Stack width={"100%"}>
-          <InputCardName id={thisId} />
-          {withDesc && <InputDescription id={thisId} />}
+          <InputCardName isError={errorName} onFocus={()=>setErrorName(false)} />
+          {withDesc && <InputDescription isError={errorDesc} onFocus={()=>setErrorDesc(false)}  />}
         </Stack>
 
         <IconButton

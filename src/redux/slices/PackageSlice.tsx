@@ -56,6 +56,14 @@ export const PackageSlice = createSlice({
     setThisDesc: (state, action: PayloadAction<string>) => {
       state.thisDesc = action.payload;
     },
+    clearInitialState: (state) => {
+      state.name = "";
+      state.type = TypePackageEnum.SIMPLE_PACK;
+      state.cards = [];
+      state.thisId = 0;
+      state.thisName = "";
+      state.thisDesc = "";
+    },
   },
 });
 
@@ -67,6 +75,7 @@ export const {
   setThisDesc,
   setThisName,
   setThisId,
+  clearInitialState,
 } = PackageSlice.actions;
 
 export default PackageSlice.reducer;

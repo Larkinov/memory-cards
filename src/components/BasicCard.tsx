@@ -15,9 +15,15 @@ type TBasicCard = {
   name: string;
   description?: string;
   height: HeightCard;
+  withButton: boolean;
 };
 
-const BasicCard: React.FC<TBasicCard> = ({ name, height, description }) => {
+const BasicCard: React.FC<TBasicCard> = ({
+  name,
+  height,
+  description,
+  withButton,
+}) => {
   return (
     <Card
       sx={{
@@ -35,14 +41,23 @@ const BasicCard: React.FC<TBasicCard> = ({ name, height, description }) => {
           {name}
         </Typography>
         {description && (
-          <div>
-            <Typography variant="body1" component="div" noWrap={true}>
+          <>
+            <Typography
+              variant="body1"
+              component="div"
+              height={"5vh"}
+              sx={{ whiteSpace: "wrap", overflow: "hidden" }}
+            >
               {description}
             </Typography>
-            <CardActions>
-              <Button size="small">Читать дальше</Button>
-            </CardActions>
-          </div>
+            {withButton && (
+              <CardActions>
+                <Button size="small" color={"success"} variant={"contained"}>
+                  Читать дальше
+                </Button>
+              </CardActions>
+            )}
+          </>
         )}
       </CardContent>
     </Card>

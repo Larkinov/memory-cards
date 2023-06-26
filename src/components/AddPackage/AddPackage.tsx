@@ -3,19 +3,14 @@ import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
-import DialogTitle from "@mui/material/DialogTitle";
 import FormControl from "@mui/material/FormControl";
 import InputPackageName from "./InputPackageName";
 import TypePackage from "./TypePackage";
 import ListCards from "./ListCards";
 import { useDispatch } from "react-redux";
-import { Card } from "../../redux/slices/PackageSlice";
+import { clearInitialState } from "../../redux/slices/PackageSlice";
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
-import ListItemText from '@mui/material/ListItemText';
-import ListItem from '@mui/material/ListItem';
-import List from '@mui/material/List';
-import Divider from '@mui/material/Divider';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
@@ -30,11 +25,34 @@ type AddPackageProps = {
 
 const AddPackage: React.FC<AddPackageProps> = ({ isOpen, setOpen }) => {
   const dispatch = useDispatch();
-  const cards:Card[] = useSelector((state:RootState)=>state.package.cards);
-  const lastCards = React.useRef();
+  const {cards, name} = useSelector((state:RootState)=>state.package);
+  const [errorName, setErrorName] = React.useState(false);
+  const [errorCards, setErrorCards] = React.useState(false);
   const handleClose = () => {
+    dispatch(clearInitialState());
     setOpen(false);
   };
+
+  const onClickContinue = () => {
+      if(name && cards.length>0){
+        dispatch(clearInitialState());
+        handleClose();
+      }else{
+        if(!name){
+          setErrorName(true);
+        }
+
+        if(cards.length===0){
+            setErrorCards(true);
+        }
+      }
+  }
+
+  React.useEffect(()=>{
+    if(cards.length>0){
+      setErrorCards(false);
+    }
+  },[cards])
 
   return (
     <div>
@@ -56,13 +74,13 @@ const AddPackage: React.FC<AddPackageProps> = ({ isOpen, setOpen }) => {
         </AppBar>
         <DialogContent>
           <FormControl>
-            <InputPackageName />
+            <InputPackageName isError={errorName} onFocus={()=>setErrorName(false)}/>
             <TypePackage />
-            <ListCards />
+            <ListCards isError={errorCards}/>
           </FormControl>
           <DialogActions sx={{display:"flex", justifyContent:"start"}}>
-            <Button onClick={handleClose} autoFocus>
-              Продолжить
+            <Button onClick={onClickContinue} autoFocus>
+              Создать пакет
             </Button>
           </DialogActions>
         </DialogContent>
