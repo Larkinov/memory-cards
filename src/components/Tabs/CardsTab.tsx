@@ -14,7 +14,6 @@ const CardsTab: React.FC = () => {
     setIsError(true);
   }, [thisSubjectId]);
 
-  console.log(subjects, thisSubjectId);
 
   return (
     <Grid container sx={{ overflow: "auto" }} p={1} spacing={1} mt={0}>

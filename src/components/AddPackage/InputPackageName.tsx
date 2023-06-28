@@ -38,7 +38,6 @@ const InputPackageName: React.FC<InputProps> = ({isError, onFocus}) => {
   return (
     <>
       <TextField
-        fullWidth
         label="Название пакета"
         onChange={(e) => onChangeInput(e)}
         value={value}

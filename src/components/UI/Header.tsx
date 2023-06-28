@@ -9,10 +9,19 @@ import SettingsIcon from "@mui/icons-material/Settings";
 import { Link } from "react-router-dom";
 import { Button } from "@mui/material";
 import AuthUI from "../Auth/AuthUI";
+import { useSelector } from "react-redux";
+import { RootState } from "../../redux/store";
 
 const Header: React.FC = () => {
   const [isOpen, setIsOpen] = React.useState(false);
+  const { email } = useSelector((state: RootState) => state.user);
+  const [login, setLogin] = React.useState("login");
 
+  React.useEffect(() => {
+    if (email) {
+      setLogin(email);
+    }
+  }, [email]);
 
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -24,13 +33,14 @@ const Header: React.FC = () => {
             </Link>
           </Typography>
           <Button color="inherit" onClick={() => setIsOpen(true)}>
-            Login
+            {login}
           </Button>
           <IconButton
             size="large"
             edge="start"
             color="inherit"
             aria-label="menu"
+            sx={{ ml: "5px" }}
           >
             <SettingsIcon />
           </IconButton>

@@ -9,12 +9,17 @@ import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
+import { useDispatch } from "react-redux";
+import { IUser, setUser } from "../../redux/slices/UserSlice";
 
 type FormProps = {
   textBtn: string;
 };
 
 const Form: React.FC<FormProps> = ({ textBtn }) => {
+  const dispatch = useDispatch();
+
   const [email, setEmail] = React.useState("");
   const [pass, setPass] = React.useState("");
   const [showPassword, setShowPassword] = React.useState(false);
@@ -26,9 +31,53 @@ const Form: React.FC<FormProps> = ({ textBtn }) => {
   ) => {
     event.preventDefault();
   };
+
+  const onClickAuth = () => {
+    const auth = getAuth();
+    if (textBtn === "Зарегистрироваться") {
+      createUserWithEmailAndPassword(auth, email, pass)
+        .then(({ user }) => {
+          console.log(user);
+          user.getIdToken().then((res) => {
+            dispatch(
+              setUser({
+                email: user.email,
+                id: user.uid,
+                token: res,
+              } as IUser)
+            );
+          });
+        })
+        .catch((error) => {
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          // ..
+        });
+    } else {
+      signInWithEmailAndPassword(auth, email, pass)
+        .then(({ user }) => {
+          console.log(user);
+          user.getIdToken().then((res) => {
+            dispatch(
+              setUser({
+                email: user.email,
+                id: user.uid,
+                token: res,
+              } as IUser)
+            );
+          });
+        })
+        .catch((error) => {
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          // ..
+        });
+    }
+  };
+
   return (
     <>
-      <Stack spacing={3} mt={"10px"} >
+      <Stack spacing={3} mt={"10px"}>
         <FormControl>
           <TextField
             label="E-mail"
@@ -46,7 +95,6 @@ const Form: React.FC<FormProps> = ({ textBtn }) => {
             onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
               setPass(event.target.value);
             }}
-            fullWidth
             type={showPassword ? "text" : "password"}
             endAdornment={
               <InputAdornment position="end">
@@ -63,7 +111,9 @@ const Form: React.FC<FormProps> = ({ textBtn }) => {
             label="Password"
           />
         </FormControl>
-        <Button variant="contained">{textBtn}</Button>
+        <Button variant="contained" onClick={() => onClickAuth()}>
+          {textBtn}
+        </Button>
       </Stack>
     </>
   );

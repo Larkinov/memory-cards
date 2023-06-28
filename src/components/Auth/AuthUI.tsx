@@ -30,6 +30,7 @@ const AuthUI: React.FC<AuthProps> = ({ isOpen, setIsOpen }) => {
     setValue(newValue);
   };
 
+
   return (
     <div>
       <Dialog open={isOpen} onClose={handleClose}>
@@ -37,7 +38,7 @@ const AuthUI: React.FC<AuthProps> = ({ isOpen, setIsOpen }) => {
           <Box sx={{ width: "100%" }}>
             <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
               <Tabs value={value} onChange={handleChange}>
-                <Tab label="Войти" {...a11yProps(0)} />
+                <Tab label={"Войти"} {...a11yProps(0)} />
                 <Tab label="Зарегистрироваться" {...a11yProps(1)} />
               </Tabs>
             </Box>
