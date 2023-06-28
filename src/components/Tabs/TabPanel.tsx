@@ -1,6 +1,5 @@
 import { Box, Typography } from "@mui/material";
 import React from "react";
-import styles from "./TabPanel.module.scss";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -17,7 +16,6 @@ const TabPanel = (props: TabPanelProps) => {
       id={`simple-tabpanel-${index}`}
       aria-labelledby={`simple-tab-${index}`}
       {...other}
-      className={styles.tabPanel}
     >
       {value === index && (
         <Box sx={{ p: 2 }}>

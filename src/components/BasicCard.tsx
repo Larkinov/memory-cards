@@ -29,6 +29,7 @@ type TBasicCard = {
   width: WidthCard;
   withButton: boolean;
   id?: number;
+  isDelete: boolean;
 };
 
 const BasicCard: React.FC<TBasicCard> = ({
@@ -38,6 +39,7 @@ const BasicCard: React.FC<TBasicCard> = ({
   withButton,
   width,
   id,
+  isDelete,
 }) => {
   const dispatch = useDispatch();
 
@@ -82,17 +84,19 @@ const BasicCard: React.FC<TBasicCard> = ({
           </>
         )}
       </CardContent>
-      <Button
-        onClick={deleteCard}
-        sx={{
-          zIndex: "1",
-          position: "absolute",
-          right: "0px",
-          top: "0",
-        }}
-      >
-        <DeleteIcon color="action" />
-      </Button>
+      {isDelete && (
+        <Button
+          onClick={deleteCard}
+          sx={{
+            zIndex: "1",
+            position: "absolute",
+            right: "0px",
+            top: "0",
+          }}
+        >
+          <DeleteIcon color="action" />
+        </Button>
+      )}
     </Card>
   );
 };

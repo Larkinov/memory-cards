@@ -11,18 +11,22 @@ import AddCircleIcon from "@mui/icons-material/AddCircle";
 
 import data from "../DefaultCardsData.json";
 import AddPackage from "./AddPackage/AddPackage";
-import { ISubject, setSubject } from "../redux/slices/SubjectsSlice";
+import { TSubject, setIdSubject, setSubject } from "../redux/slices/SubjectsSlice";
 import { clearInitialState } from "../redux/slices/PackageSlice";
 import { useSelector } from "react-redux";
 import { RootState } from "../redux/store";
 
 const ListSubjects: React.FC = () => {
   const dispatch = useDispatch();
-  const {cards} = useSelector((state:RootState)=>state.subjects);
+  const {subjects } = useSelector(
+    (state: RootState) => state.subjects
+  );
   const [open, setOpen] = React.useState(false);
 
-  const onClickSubject = (elem:ISubject) => {
-    dispatch(setSubject(elem));
+  const onClickSubject = (elem: TSubject, id:number) => {
+    dispatch(setIdSubject(id));
+    // dispatch(setSubject(elem));
+
   };
 
   const openAddPanel = () => {
@@ -37,18 +41,25 @@ const ListSubjects: React.FC = () => {
       >
         {data.data.map((elem, index) => (
           <ListItem disablePadding key={index}>
-            <ListItemButton onClick={() => onClickSubject(elem as ISubject)}>
+            <ListItemButton onClick={() => onClickSubject(elem as TSubject, index)}>
               <ListItemText primary={elem.title} />
             </ListItemButton>
           </ListItem>
         ))}
-        {/* {cards.map((elem) => (
-          <ListItem disablePadding key={elem.id}>
-            <ListItemButton onClick={() => onClickSubject({title:elem.name,} as ISubject)}>
-              <ListItemText primary={elem.title} />
-            </ListItemButton>
-          </ListItem>
-        ))} */}
+        {subjects.map(
+          (elem,index) =>
+            elem.title && (
+              <ListItem disablePadding key={index}>
+                <ListItemButton
+                  onClick={() =>
+                    onClickSubject(elem as TSubject, index)
+                  }
+                >
+                  <ListItemText primary={elem.title} />
+                </ListItemButton>
+              </ListItem>
+            )
+        )}
 
         <ListItem disablePadding>
           <IconButton

@@ -11,7 +11,7 @@ const GamePage: React.FC = () => {
   const {gameMode, fullPackage, countCards, randomCards } = useSelector(
     (state: RootState) => state.settings
   );
-  const { cards } = useSelector((state: RootState) => state.subjects);
+  const { thisSubjectId, subjects } = useSelector((state: RootState) => state.subjects);
   const [endGame, setEndGame] = React.useState(false);
   const [restart, setRestart] = React.useState(false);
 
@@ -33,7 +33,7 @@ const GamePage: React.FC = () => {
           <>
             <TimerUI endGame={(isEnd: boolean) => setEndGame(isEnd)}/>
             <ReadMode
-              cards={getCards(cards, randomCards, fullPackage, countCards)}
+              cards={getCards(subjects[thisSubjectId].cards, randomCards, fullPackage, countCards)}
               endGame={(isEnd: boolean) => setEndGame(isEnd)}
             />
           </>

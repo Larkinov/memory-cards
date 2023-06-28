@@ -17,7 +17,7 @@ import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import CloseIcon from "@mui/icons-material/Close";
 import Transition from "./Transition";
-import { ISubject, setSubject } from "../../redux/slices/SubjectsSlice";
+import { TSubject, setSubject } from "../../redux/slices/SubjectsSlice";
 
 type AddPackageProps = {
   isOpen: boolean;
@@ -41,7 +41,7 @@ const AddPackage: React.FC<AddPackageProps> = ({ isOpen, setOpen }) => {
       setErrorCards(false);
       setErrorName(false);
       setOpen(false);
-      dispatch(setSubject({title:name, cards:cards, type:type} as ISubject));
+      dispatch(setSubject({title:name, cards:cards, type:type} as TSubject));
     } else {
       if (!name) {
         setErrorName(true);

@@ -60,6 +60,7 @@ const ListCards: React.FC<ListProps> = ({isError}) => {
                 withButton={false}
                 width={WidthCard.FULL}
                 id={elem.id}
+                isDelete={true}
               />
             </Grid>
           ))}

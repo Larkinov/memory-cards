@@ -7,8 +7,13 @@ import IconButton from "@mui/material/IconButton";
 import SettingsIcon from "@mui/icons-material/Settings";
 
 import { Link } from "react-router-dom";
+import { Button } from "@mui/material";
+import AuthUI from "../Auth/AuthUI";
 
 const Header: React.FC = () => {
+  const [isOpen, setIsOpen] = React.useState(false);
+
+
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
@@ -18,7 +23,9 @@ const Header: React.FC = () => {
               Memory Cards
             </Link>
           </Typography>
-
+          <Button color="inherit" onClick={() => setIsOpen(true)}>
+            Login
+          </Button>
           <IconButton
             size="large"
             edge="start"
@@ -29,6 +36,7 @@ const Header: React.FC = () => {
           </IconButton>
         </Toolbar>
       </AppBar>
+      <AuthUI isOpen={isOpen} setIsOpen={setIsOpen} />
     </Box>
   );
 };

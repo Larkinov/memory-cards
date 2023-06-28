@@ -34,6 +34,7 @@ const ReadMode: React.FC<ReadModeProps> = ({ cards, endGame }) => {
             height={HeightCard.HEAVY}
             withButton={true}
             width={WidthCard.FULL}
+            isDelete={false}
           />
         )}
       </Grid>
