@@ -19,7 +19,8 @@ const Header: React.FC = () => {
 
   React.useEffect(() => {
     if (email) {
-      setLogin(email);
+      let login = email;
+      setLogin(login.slice(0, login.indexOf("@", 0)));
     }
   }, [email]);
 
