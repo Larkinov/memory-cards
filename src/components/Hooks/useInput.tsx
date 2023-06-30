@@ -5,7 +5,7 @@
 //     label:string;
 // }
 
-// const useInput:React.FC<useInputProps> = ({label}) => {
+// const useInput = ({label}) => {
 
 // const [value, setValue] = React.useState("");
 // const handleChange = (event:ReactHTMLInputElement) => {
@@ -16,6 +16,7 @@
 // };
 
 // export default useInput;
+
 import React from 'react'
 
 const useInput = () => {
