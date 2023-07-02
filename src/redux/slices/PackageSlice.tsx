@@ -16,7 +16,7 @@ export interface IPackage {
   name: string;
   type: TypePackageEnum;
   cards: Card[];
-  thisId: number;
+  thisCardId: number;
   thisName: string;
   thisDesc?: string;
 }
@@ -25,7 +25,7 @@ const initialState: IPackage = {
   name: "",
   type: TypePackageEnum.SIMPLE_PACK,
   cards: [],
-  thisId: 0,
+  thisCardId: 0,
   thisName: "",
   thisDesc: "",
 };
@@ -54,8 +54,8 @@ export const PackageSlice = createSlice({
       state.cards = x;
     },
 
-    setThisId: (state, action: PayloadAction<number>) => {
-      state.thisId = action.payload;
+    setThisCardId: (state, action: PayloadAction<number>) => {
+      state.thisCardId = action.payload;
     },
     setThisName: (state, action: PayloadAction<string>) => {
       state.thisName = action.payload;
@@ -67,7 +67,7 @@ export const PackageSlice = createSlice({
       state.name = "";
       state.type = TypePackageEnum.SIMPLE_PACK;
       state.cards = [];
-      state.thisId = 0;
+      state.thisCardId = 0;
       state.thisName = "";
       state.thisDesc = "";
     },
@@ -81,7 +81,7 @@ export const {
   removeCard,
   setThisDesc,
   setThisName,
-  setThisId,
+  setThisCardId,
   clearInitialState,
 } = PackageSlice.actions;
 

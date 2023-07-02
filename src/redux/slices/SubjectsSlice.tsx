@@ -8,20 +8,18 @@ export type TSubject = {
   title: string;
   type: TypePackageEnum;
   cards: Card[];
-  id: number;
+  id: string;
 };
 
 export interface ISubjects {
   subjects: TSubject[];
-  thisSubjectId: number;
+  thisSubjectId: string;
   idUser: string;
 }
 
 const initialState: ISubjects = {
-  subjects: [
-    { title: "", type: TypePackageEnum.SIMPLE_PACK, cards: [], id: 0 },
-  ],
-  thisSubjectId: 0,
+  subjects: [],
+  thisSubjectId: "",
   idUser: "",
 };
 
@@ -50,19 +48,27 @@ export const subjectsSlices = createSlice({
   initialState,
   reducers: {
     setSubject: (state, action: PayloadAction<TSubject>) => {
-      state.subjects[state.thisSubjectId].title = action.payload.title;
-      state.subjects[state.thisSubjectId].type = action.payload.type;
-      state.subjects[state.thisSubjectId].cards = action.payload.cards;
+      state.subjects.push(action.payload);
     },
-    setIdSubject: (state, action: PayloadAction<number>) => {
+    setIdSubject: (state, action: PayloadAction<string>) => {
       state.thisSubjectId = action.payload;
     },
     setIdUser: (state, action: PayloadAction<string>) => {
       state.idUser = action.payload;
     },
+    clearSubjects: (state) => {
+      state.idUser = "";
+      state.subjects = [];
+      state.thisSubjectId = "";
+    },
   },
 });
 
-export const { setSubject, setIdSubject } = subjectsSlices.actions;
+export const {
+  setSubject,
+  setIdSubject,
+  clearSubjects,
+  setIdUser,
+} = subjectsSlices.actions;
 
 export default subjectsSlices.reducer;

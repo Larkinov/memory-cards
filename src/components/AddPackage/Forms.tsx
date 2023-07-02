@@ -2,8 +2,8 @@ import React from "react";
 import IconButton from "@mui/material/IconButton";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import { Stack } from "@mui/material";
-import InputCardName from "./InputCard";
-import InputDescription from "./InputDescription";
+import InputCardName from "./components/InputCard";
+import InputDescription from "./components/InputDescription";
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
 import {
@@ -11,7 +11,7 @@ import {
   TypePackageEnum,
   pushCard,
   setThisDesc,
-  setThisId,
+  setThisCardId,
   setThisName,
 } from "../../redux/slices/PackageSlice";
 import { useDispatch } from "react-redux";
@@ -23,28 +23,28 @@ type FormProps = {
 const Forms: React.FC<FormProps> = ({ withDesc,}) => {
   const { type } = useSelector((state: RootState) => state.package);
   const dispatch = useDispatch();
-  const { thisId, thisName, thisDesc} = useSelector((state: RootState) => state.package);
+  const { thisCardId, thisName, thisDesc} = useSelector((state: RootState) => state.package);
 
   const [errorName, setErrorName] = React.useState(false);
   const [errorDesc, setErrorDesc] = React.useState(false);
   const addCard = () => {
-    let card: Card = { name: thisName , id: thisId, description:thisDesc};
+    let card: Card = { name: thisName , id: thisCardId, description:thisDesc};
 
     let dispatchCard = () => {
       dispatch(pushCard(card));
       dispatch(setThisDesc(""));
       dispatch(setThisName(""));
-      dispatch(setThisId(thisId));
+      dispatch(setThisCardId(thisCardId));
     };
 
     if (card.name) {      
       if (type === TypePackageEnum.SIMPLE_PACK) {
         dispatchCard();
-        dispatch(setThisId(thisId+1));
+        dispatch(setThisCardId(thisCardId+1));
       } else {
         if (card.description) {
           dispatchCard();
-          dispatch(setThisId(thisId+1));
+          dispatch(setThisCardId(thisCardId+1));
         }else{
           setErrorDesc(true);
         }

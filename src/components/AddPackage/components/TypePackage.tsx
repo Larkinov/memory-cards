@@ -5,9 +5,9 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import FormLabel from "@mui/material/FormLabel";
 
 import { useDispatch } from "react-redux";
-import { TypePackageEnum, setType } from "../../redux/slices/PackageSlice";
+import { TypePackageEnum, setType } from "../../../redux/slices/PackageSlice";
 import { useSelector } from "react-redux";
-import { RootState } from "../../redux/store";
+import { RootState } from "../../../redux/store";
 import { Button, Tooltip } from "@mui/material";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 

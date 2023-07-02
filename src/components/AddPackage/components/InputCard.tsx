@@ -1,9 +1,9 @@
 import { TextField } from "@mui/material";
 import React from "react";
 import { useDispatch } from "react-redux";
-import { setThisName } from "../../redux/slices/PackageSlice";
+import { setThisName } from "../../../redux/slices/PackageSlice";
 import { useSelector } from "react-redux";
-import { RootState } from "../../redux/store";
+import { RootState } from "../../../redux/store";
 
 type InputProps = {
   isError:boolean;

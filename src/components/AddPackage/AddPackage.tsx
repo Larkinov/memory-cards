@@ -4,8 +4,8 @@ import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import FormControl from "@mui/material/FormControl";
-import InputPackageName from "./InputPackageName";
-import TypePackage from "./TypePackage";
+import InputPackageName from "./components/InputPackageName";
+import TypePackage from "./components/TypePackage";
 import ListCards from "./ListCards";
 import { useDispatch } from "react-redux";
 import { clearInitialState } from "../../redux/slices/PackageSlice";
@@ -17,7 +17,12 @@ import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import CloseIcon from "@mui/icons-material/Close";
 import Transition from "./Transition";
-import { TSubject, setPackageDB, setSubject } from "../../redux/slices/SubjectsSlice";
+import {
+  TSubject,
+  setPackageDB,
+  setSubject,
+} from "../../redux/slices/SubjectsSlice";
+import { checkIdSubject } from "../../utils/checkIdSubject";
 
 type AddPackageProps = {
   isOpen: boolean;
@@ -26,7 +31,10 @@ type AddPackageProps = {
 
 const AddPackage: React.FC<AddPackageProps> = ({ isOpen, setOpen }) => {
   const dispatch = useDispatch();
-  const { cards, name,type } = useSelector((state: RootState) => state.package);
+  const { subjects } = useSelector((state: RootState) => state.subjects);
+  const { cards, name, type } = useSelector(
+    (state: RootState) => state.package
+  );
   const { id } = useSelector((state: RootState) => state.user);
   const [errorName, setErrorName] = React.useState(false);
   const [errorCards, setErrorCards] = React.useState(false);
@@ -38,20 +46,28 @@ const AddPackage: React.FC<AddPackageProps> = ({ isOpen, setOpen }) => {
   };
 
   const onClickContinue = () => {
-    if (name && cards.length > 0) {
-      // let subject:TSubject = {title:name, cards:cards, type:type, id:name };
-      setErrorCards(false);
-      setErrorName(false);
-      setOpen(false);
-      // dispatch(setSubject(subject));
-      // dispatch(setPackageDB())
-    } else {
-      if (!name) {
-        setErrorName(true);
-      }
+    let idSubject: string = String(Math.random());
+    if (checkIdSubject(idSubject, subjects)) {
+      if (name && cards.length > 0) {
+        let subject: TSubject = {
+          title: name,
+          cards: cards,
+          type: type,
+          id: idSubject,
+        };
+        setErrorCards(false);
+        setErrorName(false);
+        setOpen(false);
+        // dispatch(setSubject(subject));
+        // dispatch(setPackageDB())
+      } else {
+        if (!name) {
+          setErrorName(true);
+        }
 
-      if (cards.length === 0) {
-        setErrorCards(true);
+        if (cards.length === 0) {
+          setErrorCards(true);
+        }
       }
     }
   };
