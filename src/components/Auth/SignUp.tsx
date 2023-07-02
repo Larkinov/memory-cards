@@ -8,9 +8,11 @@ import { IUser, setUser } from "../../redux/slices/UserSlice";
 import EmailUI from "./components/EmailUI";
 import PasswordUI from "./components/PasswordUI";
 import { Typography } from "@mui/material";
+import { setUserDB } from "../../firebase";
+import { setUserData } from "../../utils/localUserData";
 type SignUpProps = {
   textBtn: string;
-  setIsOpen:Function;
+  setIsOpen: Function;
 };
 
 const SignUp: React.FC<SignUpProps> = ({ textBtn, setIsOpen }) => {
@@ -25,7 +27,6 @@ const SignUp: React.FC<SignUpProps> = ({ textBtn, setIsOpen }) => {
     const auth = getAuth();
     createUserWithEmailAndPassword(auth, email, pass)
       .then(({ user }) => {
-        console.log(user);
         user.getIdToken().then((res) => {
           dispatch(
             setUser({
@@ -35,6 +36,10 @@ const SignUp: React.FC<SignUpProps> = ({ textBtn, setIsOpen }) => {
             } as IUser)
           );
         });
+        if (user.email) {
+          setUserDB(user.uid, user.email);
+          setUserData(user.uid, user.email);
+        }
         setIsOpen(false);
       })
       .catch((error) => {

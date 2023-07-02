@@ -1,6 +1,8 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 import { Card, TypePackageEnum } from "./PackageSlice";
+import { collection, doc, setDoc } from "firebase/firestore";
+import { storage } from "../../firebase";
 
 export type TSubject = {
   title: string;
@@ -12,6 +14,7 @@ export type TSubject = {
 export interface ISubjects {
   subjects: TSubject[];
   thisSubjectId: number;
+  idUser: string;
 }
 
 const initialState: ISubjects = {
@@ -19,7 +22,28 @@ const initialState: ISubjects = {
     { title: "", type: TypePackageEnum.SIMPLE_PACK, cards: [], id: 0 },
   ],
   thisSubjectId: 0,
+  idUser: "",
 };
+
+type TthunkPackage = {
+  subject: TSubject;
+  id: string;
+};
+
+export const setPackageDB = createAsyncThunk(
+  "subjects/setPackageDB",
+  async (args: TthunkPackage) => {
+    const packagesRef = collection(storage, "packages");
+    try {
+      await setDoc(doc(packagesRef, args.id), {
+        title: args.subject.title,
+        type: args.subject.type,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  }
+);
 
 export const subjectsSlices = createSlice({
   name: "subjects",
@@ -32,6 +56,9 @@ export const subjectsSlices = createSlice({
     },
     setIdSubject: (state, action: PayloadAction<number>) => {
       state.thisSubjectId = action.payload;
+    },
+    setIdUser: (state, action: PayloadAction<string>) => {
+      state.idUser = action.payload;
     },
   },
 });

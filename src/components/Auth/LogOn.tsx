@@ -7,6 +7,7 @@ import { IUser, setUser } from "../../redux/slices/UserSlice";
 import EmailUI from "./components/EmailUI";
 import PasswordUI from "./components/PasswordUI";
 import { Alert, Typography } from "@mui/material";
+import { setUserData } from "../../utils/localUserData";
 
 type LogOnProps = {
   textBtn: string;
@@ -34,6 +35,9 @@ const LogOn: React.FC<LogOnProps> = ({ textBtn, setIsOpen }) => {
             } as IUser)
           );
         });
+        if (user.email) {
+          setUserData(user.uid, user.email);
+        }
         setIsOpen(false);
       })
       .catch((error) => {

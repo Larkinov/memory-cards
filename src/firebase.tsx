@@ -1,5 +1,12 @@
 import { initializeApp } from "firebase/app";
-import { getFirestore, collection, getDocs } from "firebase/firestore";
+import {
+  getFirestore,
+  collection,
+  getDocs,
+  doc,
+  getDoc,
+  setDoc,
+} from "firebase/firestore";
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
@@ -13,25 +20,55 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 
-const storage = getFirestore(app);
+export const storage = getFirestore(app);
 
-const colRef = collection(storage, "users");
+// const colRef = collection(storage, "packages");
 
-export const testing = () => {
-  console.log("Просто вызов");
+export async function setUserDB(id:string,email:string) {
+  const usersRef = collection(storage,"users");
+  await setDoc(doc(usersRef, id),{
+    email:email,
+  })
+}
+  
 
-  getDocs(colRef)
-    .then((snapshot) => {
-      let users:any[] = [];
-      snapshot.docs.forEach((doc) => {
-        users.push({...doc.data(), id:doc.id});
-      });
-      console.log(users);
-    })
-    .catch((err) => {
-      console.log("error!");
+// export const testing = () => {
+//   console.log("Просто вызов");
 
-      console.log(err);
-    });
+//   // getDocs(colRef)
+//   //   .then((snapshot) => {
+//   //     let packages:any[] = [];
+//   //     snapshot.docs.forEach((doc) => {
+//   //       packages.push({...doc.data(), id:doc.id});
+//   //     });
+//   //     console.log(packages);
+//   //   })
+//   //   .catch((err) => {
+//   //     console.log("error!");
+
+//   //     console.log(err);
+//   //   });
+
+// };
+
+// export async function getFirstPackage() {
+//   let packageTitle:{title:string, id:string}={title:"",id:""};
+//   const packageRef = doc(storage, "packages", "0");
+//   const cardsRef = doc(storage, "packages", "0", "cards", "0");
+//   const packageSnap = await getDoc(packageRef);
+//   const cardsSnap = await getDoc(cardsRef);
+
+//   if (packageSnap.exists()&&cardsSnap.exists()) {
+//     let data = packageSnap.data();
+//     let data2 = cardsSnap.data();
+//     console.log("Document data:", data2);
+//     packageTitle.title=data.title;
+//     packageTitle.id=data2.name[0];
+//     console.log(packageTitle,"sss");
     
-};
+//     return packageTitle;
+//   } else {
+//     // docSnap.data() will be undefined in this case
+//     console.log("No such document!");
+//   }
+// }

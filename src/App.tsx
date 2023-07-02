@@ -7,10 +7,8 @@ import GamePage from "./pages/GamePage";
 import NotFoundPage from "./pages/NotFoundPage";
 import MainLayout from "./pages/MainLayout";
 import { loadingSettings } from "./utils/localSettings";
-import { testing } from "./firebase";
 
 const App: React.FC = () => {
-  testing();
   const dispatch = useDispatch();
   React.useEffect(() => {
     loadingSettings(dispatch);

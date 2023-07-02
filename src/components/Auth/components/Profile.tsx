@@ -7,6 +7,7 @@ import { RootState } from "../../../redux/store";
 import { getAuth, signOut } from "firebase/auth";
 import { useDispatch } from "react-redux";
 import { clearUser } from "../../../redux/slices/UserSlice";
+import { clearUserData } from "../../../utils/localUserData";
 
 const Profile: React.FC = () => {
   const { email } = useSelector((state: RootState) => state.user);
@@ -19,6 +20,7 @@ const Profile: React.FC = () => {
     signOut(auth)
       .then(() => {
         dispatch(clearUser());
+        clearUserData();
       })
       .catch((error) => {
         setIsErr(true);

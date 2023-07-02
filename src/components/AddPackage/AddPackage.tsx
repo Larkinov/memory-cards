@@ -17,7 +17,7 @@ import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import CloseIcon from "@mui/icons-material/Close";
 import Transition from "./Transition";
-import { TSubject, setSubject } from "../../redux/slices/SubjectsSlice";
+import { TSubject, setPackageDB, setSubject } from "../../redux/slices/SubjectsSlice";
 
 type AddPackageProps = {
   isOpen: boolean;
@@ -27,6 +27,7 @@ type AddPackageProps = {
 const AddPackage: React.FC<AddPackageProps> = ({ isOpen, setOpen }) => {
   const dispatch = useDispatch();
   const { cards, name,type } = useSelector((state: RootState) => state.package);
+  const { id } = useSelector((state: RootState) => state.user);
   const [errorName, setErrorName] = React.useState(false);
   const [errorCards, setErrorCards] = React.useState(false);
   const handleClose = () => {
@@ -38,10 +39,12 @@ const AddPackage: React.FC<AddPackageProps> = ({ isOpen, setOpen }) => {
 
   const onClickContinue = () => {
     if (name && cards.length > 0) {
+      // let subject:TSubject = {title:name, cards:cards, type:type, id:name };
       setErrorCards(false);
       setErrorName(false);
       setOpen(false);
-      dispatch(setSubject({title:name, cards:cards, type:type} as TSubject));
+      // dispatch(setSubject(subject));
+      // dispatch(setPackageDB())
     } else {
       if (!name) {
         setErrorName(true);
