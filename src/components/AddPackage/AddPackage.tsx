@@ -10,7 +10,7 @@ import ListCards from "./ListCards";
 import { useDispatch } from "react-redux";
 import { clearInitialState } from "../../redux/slices/PackageSlice";
 import { useSelector } from "react-redux";
-import { RootState } from "../../redux/store";
+import { RootState, useAppDispatch } from "../../redux/store";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
@@ -19,6 +19,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import Transition from "./Transition";
 import {
   TSubject,
+  TthunkPackage,
   setPackageDB,
   setSubject,
 } from "../../redux/slices/SubjectsSlice";
@@ -31,6 +32,7 @@ type AddPackageProps = {
 
 const AddPackage: React.FC<AddPackageProps> = ({ isOpen, setOpen }) => {
   const dispatch = useDispatch();
+  const appDispatch = useAppDispatch();
   const { subjects } = useSelector((state: RootState) => state.subjects);
   const { cards, name, type } = useSelector(
     (state: RootState) => state.package
@@ -58,8 +60,12 @@ const AddPackage: React.FC<AddPackageProps> = ({ isOpen, setOpen }) => {
         setErrorCards(false);
         setErrorName(false);
         setOpen(false);
-        // dispatch(setSubject(subject));
-        // dispatch(setPackageDB())
+        dispatch(setSubject(subject));
+        let pack: TthunkPackage = {
+          subject: subject,
+          idPackage: id + "id" + idSubject,
+        };
+        appDispatch(setPackageDB(pack));
       } else {
         if (!name) {
           setErrorName(true);

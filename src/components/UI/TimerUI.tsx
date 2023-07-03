@@ -16,6 +16,8 @@ const TimerUI: React.FC<TimerUIProps> = ({endGame}) => {
   }
 
   React.useEffect(() => {
+    console.log("timer", timerState);
+    
     if (timerState - 1 >= 0) {
       setTimeout(() => {
         setTimerState(timerState - 1);

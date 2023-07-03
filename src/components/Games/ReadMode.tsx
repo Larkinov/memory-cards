@@ -23,6 +23,7 @@ const ReadMode: React.FC<ReadModeProps> = ({ cards, endGame }) => {
       setIter(iter - 1);
     }
   };
+  
 
   return (
     <>
@@ -30,9 +31,10 @@ const ReadMode: React.FC<ReadModeProps> = ({ cards, endGame }) => {
         {cards.length && (
           <BasicCard
             name={cards[iter].name}
+            description={cards[iter].description}
             key={cards[iter].name}
             height={HeightCard.HEAVY}
-            withButton={true}
+            withButton={false}
             width={WidthCard.FULL}
             isDelete={false}
           />

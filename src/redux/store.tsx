@@ -3,6 +3,7 @@ import SettingsSlice from './slices/SettingsSlice'
 import PackageSlice from './slices/PackageSlice'
 import SubjectsSlice from './slices/SubjectsSlice'
 import UserSlice from './slices/UserSlice'
+import { useDispatch } from 'react-redux'
 
 export const store = configureStore({
   reducer: {
@@ -15,3 +16,4 @@ export const store = configureStore({
 
 export type RootState = ReturnType<typeof store.getState>
 export type AppDispatch = typeof store.dispatch
+export const useAppDispatch = () => useDispatch<AppDispatch>();

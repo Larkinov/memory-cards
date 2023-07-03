@@ -16,6 +16,7 @@ const GamePage: React.FC = () => {
   const { thisSubjectId, subjects } = useSelector(
     (state: RootState) => state.subjects
   );
+  const { isTime } = useSelector((state: RootState) => state.settings);
   const [endGame, setEndGame] = React.useState(false);
   const [restart, setRestart] = React.useState(false);
 
@@ -35,6 +36,8 @@ const GamePage: React.FC = () => {
   };
   const subject: TSubject = getThisSubject();
 
+  console.log(endGame, "endgame");
+
   React.useEffect(() => {
     setEndGame(false);
   }, [restart]);
@@ -51,7 +54,9 @@ const GamePage: React.FC = () => {
           <EndGame restart={restart} setRestart={setRestart} />
         ) : (
           <>
-            <TimerUI endGame={(isEnd: boolean) => setEndGame(isEnd)} />
+            {isTime && (
+              <TimerUI endGame={(isEnd: boolean) => setEndGame(isEnd)} />
+            )}
             <ReadMode
               cards={getCards(
                 subject.cards,

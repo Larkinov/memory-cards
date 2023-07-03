@@ -9,10 +9,8 @@ import { RootState } from "../../redux/store";
 const CardsTab: React.FC = () => {
   const { thisSubjectId } = useSelector((state: RootState) => state.subjects);
   const { subjects } = useSelector((state: RootState) => state.subjects);
-  const { email } = useSelector((state: RootState) => state.user);
   const [isError, setIsError] = React.useState(false);
   React.useEffect(() => {
-    
     if (subjects.length === 0) {
       setIsError(false);
     } else {
@@ -24,25 +22,29 @@ const CardsTab: React.FC = () => {
     <Grid container sx={{ overflow: "auto" }} p={1} spacing={1} mt={0}>
       {isError && (
         <>
-          {subjects.forEach((subject) => {
-            
-            if (subject.id === thisSubjectId) {
-              console.log(subject);
-              
-              subject.cards.map((elem) => (
+          {subjects
+            .filter((subject) => {
+              let f = false;
+              if (subject.id === thisSubjectId) {
+                f = true;
+              }
+              return f;
+            })
+            .map((elem) =>
+              elem.cards.map((card) => (
                 <Grid item xs={4}>
                   <BasicCard
-                    name={elem.name}
+                    name={card.name}
+                    description={card.description}
                     withButton={true}
-                    key={elem.id}
+                    key={card.id}
                     height={HeightCard.MEDIUM}
                     width={WidthCard.FULL}
                     isDelete={false}
                   />
                 </Grid>
-              ));
-            }
-          })}
+              ))
+            )}
         </>
       )}
     </Grid>
