@@ -17,13 +17,9 @@ import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import CloseIcon from "@mui/icons-material/Close";
 import Transition from "./Transition";
-import {
-  TSubject,
-  TthunkPackage,
-  setPackageDB,
-  setSubject,
-} from "../../redux/slices/SubjectsSlice";
-import { checkIdSubject } from "../../utils/checkIdSubject";
+import { StatusProcess, setStatusSetPackage } from "../../redux/slices/SubjectsSlice";
+import BtnContinue from "./BtnContinue";
+import StatusSetPackage from "./components/StatusSetPackage";
 
 type AddPackageProps = {
   isOpen: boolean;
@@ -32,12 +28,11 @@ type AddPackageProps = {
 
 const AddPackage: React.FC<AddPackageProps> = ({ isOpen, setOpen }) => {
   const dispatch = useDispatch();
-  const appDispatch = useAppDispatch();
-  const { subjects } = useSelector((state: RootState) => state.subjects);
-  const { cards, name, type } = useSelector(
-    (state: RootState) => state.package
+  const { statusSetPackage } = useSelector(
+    (state: RootState) => state.subjects
   );
-  const { id } = useSelector((state: RootState) => state.user);
+ 
+  const { cards } = useSelector((state: RootState) => state.package);
   const [errorName, setErrorName] = React.useState(false);
   const [errorCards, setErrorCards] = React.useState(false);
   const handleClose = () => {
@@ -47,42 +42,20 @@ const AddPackage: React.FC<AddPackageProps> = ({ isOpen, setOpen }) => {
     setOpen(false);
   };
 
-  const onClickContinue = () => {
-    let idSubject: string = String(Math.random());
-    if (checkIdSubject(idSubject, subjects)) {
-      if (name && cards.length > 0) {
-        let subject: TSubject = {
-          title: name,
-          cards: cards,
-          type: type,
-          id: idSubject,
-        };
-        setErrorCards(false);
-        setErrorName(false);
-        setOpen(false);
-        dispatch(setSubject(subject));
-        let pack: TthunkPackage = {
-          subject: subject,
-          idPackage: id + "id" + idSubject,
-        };
-        appDispatch(setPackageDB(pack));
-      } else {
-        if (!name) {
-          setErrorName(true);
-        }
-
-        if (cards.length === 0) {
-          setErrorCards(true);
-        }
-      }
-    }
-  };
-
   React.useEffect(() => {
     if (cards.length > 0) {
       setErrorCards(false);
     }
   }, [cards]);
+
+  React.useEffect(()=>{
+    if(statusSetPackage===StatusProcess.SUCCESS){
+      setTimeout(() => {
+        setOpen(false);
+        dispatch(setStatusSetPackage(StatusProcess.EMPTY));
+      }, 1500);
+    }
+  },[statusSetPackage])
 
   return (
     <div>
@@ -115,9 +88,11 @@ const AddPackage: React.FC<AddPackageProps> = ({ isOpen, setOpen }) => {
             <ListCards isError={errorCards} />
           </FormControl>
           <DialogActions sx={{ display: "flex", justifyContent: "start" }}>
-            <Button onClick={onClickContinue} autoFocus>
-              Создать пакет
-            </Button>
+            <BtnContinue
+              errorCards={(f: boolean) => setErrorCards(f)}
+              errorName={(f: boolean) => setErrorCards(f)}
+            />
+            <StatusSetPackage/>
           </DialogActions>
         </DialogContent>
       </Dialog>

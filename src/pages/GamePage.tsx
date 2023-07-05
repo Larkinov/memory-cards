@@ -36,8 +36,6 @@ const GamePage: React.FC = () => {
   };
   const subject: TSubject = getThisSubject();
 
-  console.log(endGame, "endgame");
-
   React.useEffect(() => {
     setEndGame(false);
   }, [restart]);

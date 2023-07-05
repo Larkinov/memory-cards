@@ -40,10 +40,9 @@ const TypePackage: React.FC = () => {
         <Tooltip
           disableFocusListener
           title="Если в пакете есть карточка, то тип пакета нельзя поменять"
+          sx={{ml:"10px"}}
         >
-          <Button sx={{ zIndex: "1" }}>
             <InfoOutlinedIcon color="primary" />
-          </Button>
         </Tooltip>
       </div>
       <RadioGroup
