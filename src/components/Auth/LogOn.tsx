@@ -1,13 +1,13 @@
 import React from "react";
 import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
-import { useDispatch } from "react-redux";
-import { IUser, setUser } from "../../redux/slices/UserSlice";
+import { logOn} from "../../redux/slices/UserSlice";
 import EmailUI from "./components/EmailUI";
 import PasswordUI from "./components/PasswordUI";
 import { Alert, Typography } from "@mui/material";
-import { setUserData } from "../../utils/localUserData";
+import { RootState, useAppDispatch } from "../../redux/store";
+import { useSelector } from "react-redux";
+import { StatusProcess } from "../../redux/slices/SubjectsSlice";
 
 type LogOnProps = {
   textBtn: string;
@@ -15,37 +15,33 @@ type LogOnProps = {
 };
 
 const LogOn: React.FC<LogOnProps> = ({ textBtn, setIsOpen }) => {
-  const dispatch = useDispatch();
+  const appDispatch = useAppDispatch();
 
   const [email, setEmail] = React.useState("");
   const [pass, setPass] = React.useState("");
   const [isErr, setIsErr] = React.useState(false);
-  const [errText, setErrText] = React.useState("");
-
+  const {statusLogOn} = useSelector((state:RootState)=>state.user);
   const onClickAuth = () => {
-    const auth = getAuth();
-    signInWithEmailAndPassword(auth, email, pass)
-      .then(({ user }) => {
-        user.getIdToken().then((res) => {
-          dispatch(
-            setUser({
-              email: user.email,
-              id: user.uid,
-              token: res,
-            } as IUser)
-          );
-        });
-        if (user.email) {
-          setUserData(user.uid, user.email);
-        }
-        setIsOpen(false);
-      })
-      .catch((error) => {
-        setIsErr(true);
-        setErrText("Попробуйте снова");
-        setErrText(error.code + error.message);
-      });
+    appDispatch(logOn({email:email,pass:pass}));
   };
+
+  React.useEffect(()=>{
+    switch(statusLogOn){
+      case StatusProcess.EMPTY:
+        setIsErr(false);
+        break;
+      case StatusProcess.ERROR:
+        setIsErr(true);
+        break;
+      case StatusProcess.LOADING:
+        setIsErr(false);
+        break;
+      case StatusProcess.SUCCESS:
+        setIsOpen(false);
+        setIsErr(false);
+        break;
+    }
+  },[statusLogOn])
 
   return (
     <>
@@ -60,7 +56,6 @@ const LogOn: React.FC<LogOnProps> = ({ textBtn, setIsOpen }) => {
             <Typography variant="body2">
               {textBtn} не получилось. Попробуйте снова.
             </Typography>
-            <Typography variant="body2">({errText})</Typography>
           </Alert>
         )}
       </Stack>

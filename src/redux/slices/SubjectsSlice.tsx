@@ -118,7 +118,6 @@ export const subjectsSlices = createSlice({
     });
     builder.addCase(fetchPackageDB.fulfilled, (state, action) => {
       state.statusFetchPackage = StatusProcess.SUCCESS;
-      console.log(action.payload, "action.payload");
       action.payload.map((subject,index)=>{
         let sub:TSubject = {
           type:subject.type,

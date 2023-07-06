@@ -18,7 +18,7 @@ type AuthProps = {
 
 const AuthUI: React.FC<AuthProps> = ({ isOpen, setIsOpen }) => {
   const [value, setValue] = React.useState(0);
-  const { email, id } = useSelector((state: RootState) => state.user);
+  const { email} = useSelector((state: RootState) => state.user);
   const [isAuth, setIsAuth] = React.useState(false);
 
   function a11yProps(index: number) {
@@ -37,7 +37,7 @@ const AuthUI: React.FC<AuthProps> = ({ isOpen, setIsOpen }) => {
   };
 
   React.useEffect(()=>{
-    if(email){
+    if(email!=="login"){
       setIsAuth(true);
     }else{
       setIsAuth(false);

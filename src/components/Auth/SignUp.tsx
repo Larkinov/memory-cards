@@ -2,52 +2,46 @@ import React from "react";
 import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
 import Alert from "@mui/material/Alert/Alert";
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
-import { useDispatch } from "react-redux";
-import { IUser, setUser } from "../../redux/slices/UserSlice";
+import {signUp } from "../../redux/slices/UserSlice";
 import EmailUI from "./components/EmailUI";
 import PasswordUI from "./components/PasswordUI";
 import { Typography } from "@mui/material";
-import { setUserDB } from "../../firebase";
-import { setUserData } from "../../utils/localUserData";
+import { useSelector } from "react-redux";
+import { RootState, useAppDispatch } from "../../redux/store";
+import { StatusProcess } from "../../redux/slices/SubjectsSlice";
 type SignUpProps = {
   textBtn: string;
   setIsOpen: Function;
 };
 
 const SignUp: React.FC<SignUpProps> = ({ textBtn, setIsOpen }) => {
-  const dispatch = useDispatch();
-
+  const appDispatch = useAppDispatch();
   const [email, setEmail] = React.useState("");
   const [pass, setPass] = React.useState("");
   const [isErr, setIsErr] = React.useState(false);
-  const [errText, setErrText] = React.useState("");
+  const {statusSignUp} = useSelector((state:RootState)=>state.user);
 
   const onClickAuth = () => {
-    const auth = getAuth();
-    createUserWithEmailAndPassword(auth, email, pass)
-      .then(({ user }) => {
-        user.getIdToken().then((res) => {
-          dispatch(
-            setUser({
-              email: user.email,
-              id: user.uid,
-              token: res,
-            } as IUser)
-          );
-        });
-        if (user.email) {
-          setUserDB(user.uid, user.email);
-          setUserData(user.uid, user.email);
-        }
-        setIsOpen(false);
-      })
-      .catch((error) => {
-        setIsErr(true);
-        setErrText("Попробуйте снова");
-        setErrText(error.code + "\n" + error.message);
-      });
+    appDispatch(signUp({email:email,pass:pass}));
   };
+
+  React.useEffect(()=>{
+    switch(statusSignUp){
+      case StatusProcess.EMPTY:
+        setIsErr(false);
+        break;
+      case StatusProcess.ERROR:
+        setIsErr(true);
+        break;
+      case StatusProcess.LOADING:
+        setIsErr(false);
+        break;
+      case StatusProcess.SUCCESS:
+        setIsOpen(false);
+        setIsErr(false);
+        break;
+    }
+  },[statusSignUp])
 
   return (
     <>
@@ -62,7 +56,6 @@ const SignUp: React.FC<SignUpProps> = ({ textBtn, setIsOpen }) => {
             <Typography variant="body2">
               {textBtn} не получилось. Попробуйте снова.
             </Typography>
-            <Typography variant="body2">({errText})</Typography>
           </Alert>
         )}
       </Stack>
