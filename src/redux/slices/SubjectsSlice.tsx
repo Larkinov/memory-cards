@@ -3,6 +3,7 @@ import type { PayloadAction } from "@reduxjs/toolkit";
 import { Card, TypePackageEnum } from "./PackageSlice";
 import {
   collection,
+  deleteDoc,
   doc,
   getDocs,
   query,
@@ -31,6 +32,7 @@ export interface ISubjects {
   idUser: string;
   statusSetPackage: StatusProcess;
   statusFetchPackage: StatusProcess;
+  statusDeletePackage: StatusProcess;
 }
 
 const initialState: ISubjects = {
@@ -39,6 +41,7 @@ const initialState: ISubjects = {
   idUser: "",
   statusSetPackage: StatusProcess.EMPTY,
   statusFetchPackage: StatusProcess.EMPTY,
+  statusDeletePackage: StatusProcess.EMPTY,
 };
 
 export type TthunkPackage = {
@@ -55,6 +58,7 @@ export const setPackageDB = createAsyncThunk(
       type: args.subject.type,
       cards: args.subject.cards,
       idUser: args.idUser,
+      idSubject: args.idSubject,
     });
     return args.subject;
   }
@@ -73,6 +77,13 @@ export const fetchPackageDB = createAsyncThunk(
       docs.push(doc.data());
     });
     return docs;
+  }
+);
+
+export const deletePackageDB = createAsyncThunk(
+  "subjects/deletePackageDB",
+  async (idDoc: string) => {
+    await deleteDoc(doc(storage, "packages", idDoc));
   }
 );
 
@@ -112,25 +123,29 @@ export const subjectsSlices = createSlice({
     builder.addCase(setPackageDB.rejected, (state) => {
       state.statusSetPackage = StatusProcess.ERROR;
     });
-    builder.addCase(fetchPackageDB.pending, (state, action) => {
+    builder.addCase(fetchPackageDB.pending, (state) => {
       state.statusFetchPackage = StatusProcess.LOADING;
-      
     });
     builder.addCase(fetchPackageDB.fulfilled, (state, action) => {
       state.statusFetchPackage = StatusProcess.SUCCESS;
-      action.payload.map((subject,index)=>{
-        let sub:TSubject = {
-          type:subject.type,
-          title:subject.title,
-          cards:subject.cards,
-          id:subject.idUser+"id"+index,
-        }
+      action.payload.map((subject) => {
+        let sub: TSubject = {
+          type: subject.type,
+          title: subject.title,
+          cards: subject.cards,
+          id: subject.idUser + "id" + subject.idSubject,
+        };
         state.subjects.push(sub);
-      })
+      });
     });
-    builder.addCase(fetchPackageDB.rejected, (state, action) => {
+    builder.addCase(fetchPackageDB.rejected, (state) => {
       state.statusFetchPackage = StatusProcess.ERROR;
-      console.log("error", action.error);
+    });
+    builder.addCase(deletePackageDB.fulfilled, (state) => {
+      state.statusDeletePackage = StatusProcess.SUCCESS;
+    });
+    builder.addCase(deletePackageDB.rejected, (state) => {
+      state.statusDeletePackage = StatusProcess.ERROR;
     });
   },
 });

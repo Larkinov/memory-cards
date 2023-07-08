@@ -7,10 +7,9 @@ import Tab from "@mui/material/Tab";
 import Box from "@mui/material/Box";
 import { Button } from "@mui/material";
 
-import CardsTab from "./Tabs/CardsTab";
-import SettingsTab from "./Tabs/SettingsTab";
-import TabPanel from "./Tabs/TabPanel";
-import NotAuth from "./UI/NotAuth";
+import CardsTab from "./CardsTab/CardsTab";
+import SettingsTab from "./Settings/SettingsTab";
+import TabPanel from "./UI/TabPanel";
 
 function a11yProps(index: number) {
   return {
@@ -57,7 +56,6 @@ const MainPanel: React.FC = () => {
 
             <Tab label="Карточки" {...a11yProps(1)} />
             <Tab label="Настройки" {...a11yProps(2)} />
-            <Tab label="Редактировать" {...a11yProps(3)} />
           </Tabs>
         </Box>
         <TabPanel value={value} index={1}>
@@ -65,12 +63,6 @@ const MainPanel: React.FC = () => {
         </TabPanel>
         <TabPanel value={value} index={2}>
           <SettingsTab />
-        </TabPanel>
-        <TabPanel value={value} index={3}>
-          Страница "Редактировать"
-        </TabPanel>
-        <TabPanel value={value} index={4}>
-          Страница "Редактировать"
         </TabPanel>
       </Grid>
     </Grid>

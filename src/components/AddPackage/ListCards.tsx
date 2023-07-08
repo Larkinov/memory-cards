@@ -3,7 +3,7 @@ import {useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
 import { TypePackageEnum } from "../../redux/slices/PackageSlice";
 import Forms from "./Forms";
-import BasicCard, { HeightCard, WidthCard } from "../BasicCard";
+import BasicCard, { HeightCard, WidthCard } from "../UI/BasicCard";
 import { Grid, Typography } from "@mui/material";
 
 type ListProps = {

@@ -3,9 +3,9 @@ import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
-import DeleteIcon from "@mui/icons-material/Delete";
+import ClearIcon from "@mui/icons-material/Clear";
 import { useDispatch } from "react-redux";
-import { removeCard } from "../redux/slices/PackageSlice";
+import { removeCard } from "../../redux/slices/PackageSlice";
 
 export enum HeightCard {
   SMALL = "10vh",
@@ -94,7 +94,7 @@ const BasicCard: React.FC<TBasicCard> = ({
             top: "0",
           }}
         >
-          <DeleteIcon color="action" />
+          <ClearIcon color="action" />
         </Button>
       )}
     </Card>

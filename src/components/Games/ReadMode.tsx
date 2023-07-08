@@ -1,7 +1,7 @@
 import React from "react";
 import { Card } from "../../redux/slices/PackageSlice";
 import { Button, Grid } from "@mui/material";
-import BasicCard, { HeightCard, WidthCard } from "../BasicCard";
+import BasicCard, { HeightCard, WidthCard } from "../UI/BasicCard";
 
 type ReadModeProps = {
   cards: Card[];

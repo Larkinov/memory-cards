@@ -8,6 +8,7 @@ import { Alert, Typography } from "@mui/material";
 import { RootState, useAppDispatch } from "../../redux/store";
 import { useSelector } from "react-redux";
 import { StatusProcess } from "../../redux/slices/SubjectsSlice";
+import { setUserData } from "../../utils/localUserData";
 
 type LogOnProps = {
   textBtn: string;
@@ -20,7 +21,7 @@ const LogOn: React.FC<LogOnProps> = ({ textBtn, setIsOpen }) => {
   const [email, setEmail] = React.useState("");
   const [pass, setPass] = React.useState("");
   const [isErr, setIsErr] = React.useState(false);
-  const {statusLogOn} = useSelector((state:RootState)=>state.user);
+  const {statusLogOn, id} = useSelector((state:RootState)=>state.user);
   const onClickAuth = () => {
     appDispatch(logOn({email:email,pass:pass}));
   };
@@ -37,6 +38,7 @@ const LogOn: React.FC<LogOnProps> = ({ textBtn, setIsOpen }) => {
         setIsErr(false);
         break;
       case StatusProcess.SUCCESS:
+        setUserData(id,email);
         setIsOpen(false);
         setIsErr(false);
         break;

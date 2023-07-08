@@ -9,6 +9,7 @@ import { Typography } from "@mui/material";
 import { useSelector } from "react-redux";
 import { RootState, useAppDispatch } from "../../redux/store";
 import { StatusProcess } from "../../redux/slices/SubjectsSlice";
+import { setUserData } from "../../utils/localUserData";
 type SignUpProps = {
   textBtn: string;
   setIsOpen: Function;
@@ -19,7 +20,7 @@ const SignUp: React.FC<SignUpProps> = ({ textBtn, setIsOpen }) => {
   const [email, setEmail] = React.useState("");
   const [pass, setPass] = React.useState("");
   const [isErr, setIsErr] = React.useState(false);
-  const {statusSignUp} = useSelector((state:RootState)=>state.user);
+  const {statusSignUp,id} = useSelector((state:RootState)=>state.user);
 
   const onClickAuth = () => {
     appDispatch(signUp({email:email,pass:pass}));
@@ -37,6 +38,7 @@ const SignUp: React.FC<SignUpProps> = ({ textBtn, setIsOpen }) => {
         setIsErr(false);
         break;
       case StatusProcess.SUCCESS:
+        setUserData(id,email);
         setIsOpen(false);
         setIsErr(false);
         break;

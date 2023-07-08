@@ -4,7 +4,7 @@ import DialogContent from "@mui/material/DialogContent";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Box from "@mui/material/Box";
-import TabPanel from "../Tabs/TabPanel";
+import TabPanel from "../UI/TabPanel";
 import LogOn from "./LogOn";
 import SignUp from "./SignUp";
 import { useSelector } from "react-redux";

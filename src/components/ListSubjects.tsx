@@ -27,9 +27,8 @@ const ListSubjects: React.FC = () => {
   const [open, setOpen] = React.useState(false);
   const { email } = useSelector((state: RootState) => state.user);
 
-  const onClickSubject = (elem: TSubject) => {
+  const onClickSubject = (elem: TSubject) => {    
     dispatch(setIdSubject(elem.id));
-    // dispatch(setSubject(elem));
   };
 
   const openAddPanel = () => {
