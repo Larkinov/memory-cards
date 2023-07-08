@@ -4,10 +4,14 @@ import { useSelector } from "react-redux";
 import { RootState, useAppDispatch } from "../../redux/store";
 import { checkIdSubject } from "../../utils/checkIdSubject";
 import {
+  StatusProcess,
   TSubject,
   TthunkPackage,
   setPackageDB,
+  setStatusSetPackage,
+  setSubject,
 } from "../../redux/slices/SubjectsSlice";
+import { useDispatch } from "react-redux";
 
 type BtnContinueProps = {
   errorCards: Function;
@@ -16,6 +20,7 @@ type BtnContinueProps = {
 
 const BtnContinue: React.FC<BtnContinueProps> = ({ errorCards, errorName }) => {
   const { id } = useSelector((state: RootState) => state.user);
+  const dispatch = useDispatch();
   const appDispatch = useAppDispatch();
   const { subjects } = useSelector((state: RootState) => state.subjects);
   const { cards, name, type } = useSelector(
@@ -38,7 +43,12 @@ const BtnContinue: React.FC<BtnContinueProps> = ({ errorCards, errorName }) => {
           idUser: id,
           idSubject: id + "id" + idSubject,
         };
+        if(id)
         appDispatch(setPackageDB(pack));
+        else{
+          dispatch(setSubject(subject));
+          dispatch(setStatusSetPackage(StatusProcess.SUCCESS));
+        }
       } else {
         if (!name) {
           errorName(true);

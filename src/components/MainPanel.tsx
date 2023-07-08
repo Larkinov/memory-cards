@@ -10,6 +10,7 @@ import { Button } from "@mui/material";
 import CardsTab from "./Tabs/CardsTab";
 import SettingsTab from "./Tabs/SettingsTab";
 import TabPanel from "./Tabs/TabPanel";
+import NotAuth from "./UI/NotAuth";
 
 function a11yProps(index: number) {
   return {
