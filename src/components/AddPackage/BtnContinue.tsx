@@ -43,6 +43,7 @@ const BtnContinue: React.FC<BtnContinueProps> = ({ errorCards, errorName }) => {
           idUser: id,
           idSubject: id + "id" + idSubject,
         };
+        
         if(id)
         appDispatch(setPackageDB(pack));
         else{

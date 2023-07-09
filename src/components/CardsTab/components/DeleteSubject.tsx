@@ -25,8 +25,6 @@ const DeleteSubject: React.FC = () => {
 
   const deleteSubject = () => {
     appDispatch(deletePackageDB(thisSubjectId));
-    console.log(thisSubjectId);
-    
     handleClose();
   };
 

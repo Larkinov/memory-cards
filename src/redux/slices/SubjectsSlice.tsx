@@ -60,7 +60,11 @@ export const setPackageDB = createAsyncThunk(
       idUser: args.idUser,
       idSubject: args.idSubject,
     });
-    return args.subject;
+    let pack = {
+      subject: args.subject,
+      id: args.idSubject,
+    };
+    return pack;
   }
 );
 
@@ -84,6 +88,7 @@ export const deletePackageDB = createAsyncThunk(
   "subjects/deletePackageDB",
   async (idDoc: string) => {
     await deleteDoc(doc(storage, "packages", idDoc));
+    return idDoc;
   }
 );
 
@@ -111,6 +116,9 @@ export const subjectsSlices = createSlice({
     setStatusFetchPackage: (state, action: PayloadAction<StatusProcess>) => {
       state.statusFetchPackage = action.payload;
     },
+    setStatusDeletePackage: (state, action: PayloadAction<StatusProcess>) => {
+      state.statusDeletePackage = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(setPackageDB.pending, (state) => {
@@ -118,7 +126,13 @@ export const subjectsSlices = createSlice({
     });
     builder.addCase(setPackageDB.fulfilled, (state, action) => {
       state.statusSetPackage = StatusProcess.SUCCESS;
-      state.subjects.push(action.payload);
+      let pack = action.payload;
+      state.subjects.push({
+        id: pack.id,
+        cards: pack.subject.cards,
+        type: pack.subject.type,
+        title: pack.subject.title,
+      });
     });
     builder.addCase(setPackageDB.rejected, (state) => {
       state.statusSetPackage = StatusProcess.ERROR;
@@ -133,7 +147,7 @@ export const subjectsSlices = createSlice({
           type: subject.type,
           title: subject.title,
           cards: subject.cards,
-          id: subject.idUser + "id" + subject.idSubject,
+          id: subject.idSubject,
         };
         state.subjects.push(sub);
       });
@@ -141,8 +155,15 @@ export const subjectsSlices = createSlice({
     builder.addCase(fetchPackageDB.rejected, (state) => {
       state.statusFetchPackage = StatusProcess.ERROR;
     });
-    builder.addCase(deletePackageDB.fulfilled, (state) => {
+    builder.addCase(deletePackageDB.fulfilled, (state, action) => {
       state.statusDeletePackage = StatusProcess.SUCCESS;
+      state.subjects = state.subjects.filter((sub) => {
+        if (sub.id !== action.payload) {
+          return true;
+        } else {
+          return false;
+        }
+      });
     });
     builder.addCase(deletePackageDB.rejected, (state) => {
       state.statusDeletePackage = StatusProcess.ERROR;
@@ -157,6 +178,7 @@ export const {
   setIdUser,
   setStatusFetchPackage,
   setStatusSetPackage,
+  setStatusDeletePackage,
 } = subjectsSlices.actions;
 
 export default subjectsSlices.reducer;

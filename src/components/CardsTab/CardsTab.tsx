@@ -6,7 +6,8 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
 import Cards from "./components/Cards";
 import EditMode from "./components/EditMode";
-import { StatusProcess } from "../../redux/slices/SubjectsSlice";
+import { StatusProcess, setStatusDeletePackage } from "../../redux/slices/SubjectsSlice";
+import { useDispatch } from "react-redux";
 
 const CardsTab: React.FC = () => {
   const { subjects, statusDeletePackage } = useSelector(
@@ -15,6 +16,7 @@ const CardsTab: React.FC = () => {
   const [isError, setIsError] = React.useState(false);
   const [isEdit, setIsEdit] = React.useState(false);
   const [helperText, setHelperText] = React.useState("");
+  const dispatch = useDispatch();
 
   React.useEffect(() => {
     if (subjects.length === 0) {
@@ -37,12 +39,14 @@ const CardsTab: React.FC = () => {
         setHelperText("Пакет успешно удален!");
         setTimeout(() => {
           setHelperText("");
+          dispatch(setStatusDeletePackage(StatusProcess.EMPTY));
         }, 3000);
         break;
       case StatusProcess.ERROR:
         setHelperText("Не удалось удалить пакет, попробуйте снова");
         setTimeout(() => {
           setHelperText("");
+          dispatch(setStatusDeletePackage(StatusProcess.EMPTY));
         }, 3000);
         break;
     }
