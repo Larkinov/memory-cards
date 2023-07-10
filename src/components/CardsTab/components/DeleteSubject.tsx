@@ -11,9 +11,7 @@ import { deletePackageDB } from "../../../redux/slices/SubjectsSlice";
 
 const DeleteSubject: React.FC = () => {
   const [open, setOpen] = React.useState(false);
-  const { thisSubjectId} = useSelector(
-    (state: RootState) => state.subjects
-  );
+  const { thisSubjectId } = useSelector((state: RootState) => state.subjects);
   const appDispatch = useAppDispatch();
   const handleClickOpen = () => {
     setOpen(true);
@@ -28,12 +26,10 @@ const DeleteSubject: React.FC = () => {
     handleClose();
   };
 
-
-
   return (
     <>
       <IconButton
-        sx={{ position: "absolute", right: "20px" }}
+        sx={{ position: "absolute", right: "15px", top:"70px"}}
         onClick={() => handleClickOpen()}
       >
         <DeleteIcon />

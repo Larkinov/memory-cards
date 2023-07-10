@@ -44,9 +44,11 @@ const BasicCard: React.FC<TBasicCard> = ({
   const dispatch = useDispatch();
 
   const deleteCard = () => {
-    if (id !== undefined) dispatch(removeCard(id));
+    if (id !== undefined) {
+      dispatch(removeCard(id));
+    }
   };
-  
+
   return (
     <Card
       sx={{

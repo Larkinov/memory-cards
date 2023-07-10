@@ -5,17 +5,22 @@ import BasicCard, { HeightCard, WidthCard } from "../../UI/BasicCard";
 
 import { useSelector } from "react-redux";
 import { RootState } from "../../../redux/store";
+import DeleteSubject from "./DeleteSubject";
 
-type CardsProps = {
-  isEdit:boolean;
-}
+const Cards: React.FC = () => {
+  const { thisSubjectId } = useSelector((state: RootState) => state.subjects);
+  const { subjects } = useSelector((state: RootState) => state.subjects);
+  const [visible, setVisible] = React.useState(false);
 
-const Cards: React.FC<CardsProps> = ({isEdit}) => {
-    const { thisSubjectId } = useSelector((state: RootState) => state.subjects);
-    const { subjects } = useSelector((state: RootState) => state.subjects);
+  React.useEffect(()=>{
+      if(thisSubjectId){
+        setVisible(true);
+      }
+  },[thisSubjectId])
 
   return (
     <>
+      {visible && <DeleteSubject />} 
       {subjects
         .filter((subject) => {
           let f = false;
@@ -34,7 +39,8 @@ const Cards: React.FC<CardsProps> = ({isEdit}) => {
                 key={card.id}
                 height={HeightCard.MEDIUM}
                 width={WidthCard.FULL}
-                isDelete={isEdit}
+                isDelete={false}
+                id={card.id}
               />
             </Grid>
           ))
