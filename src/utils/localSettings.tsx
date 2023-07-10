@@ -7,7 +7,9 @@ import {
   setFullPackage,
   setMode,
   setRandomCards,
-  setTimer
+  setTimer,
+  TypeMemorizeEnum,
+  setTypeMemorize
 } from "../redux/slices/SettingsSlice";
 
 export const loadingSettings = (dispatch: Dispatch<AnyAction>) => {
@@ -22,6 +24,7 @@ export const loadingSettings = (dispatch: Dispatch<AnyAction>) => {
     dispatch(setMode(x.gameMode));
     dispatch(setRandomCards(x.randomCards));
     dispatch(setTimer(x.timer));
+    dispatch(setTypeMemorize(x.typeMemorize));
   }
 };
 
@@ -32,6 +35,7 @@ export const setSettings = (settings: ISettings) => {
   setRandomSetting(settings.randomCards);
   setIsTimeSetting(settings.isTime);
   setTimeSetting(settings.timer);
+  setTypeSetting(settings.typeMemorize);
 };
 
 export const setDefaultSettings = () => {
@@ -41,10 +45,14 @@ export const setDefaultSettings = () => {
   localStorage.setItem("fullPackage", "true");
   localStorage.setItem("randomCards", "false");
   localStorage.setItem("isTime", "false");
+  localStorage.setItem("typeMemorize", TypeMemorizeEnum.FOUR_CARD);
 };
 
 export const setModeSetting = (mode: GameModeEnum) => {
   localStorage.setItem("gameMode", mode);
+};
+export const setTypeSetting = (typeMemorize: TypeMemorizeEnum) => {
+  localStorage.setItem("typeMemorize", typeMemorize);
 };
 export const setTimeSetting = (time: number) => {
   localStorage.setItem("time", String(time));
@@ -73,6 +81,10 @@ export const setIsTimeSetting = (isTime: boolean) => {
 
 export const getModeSetting = (): GameModeEnum => {
   let x = localStorage.getItem("gameMode") as GameModeEnum;
+  return x;
+};
+export const getTypeSetting = (): TypeMemorizeEnum=> {
+  let x = localStorage.getItem("typeMemorize") as TypeMemorizeEnum;
   return x;
 };
 export const getTimeSetting = (): number => {
@@ -107,6 +119,7 @@ export const getSettings = (): ISettings => {
     fullPackage: getPackageSetting(),
     randomCards: getRandomSetting(),
     isTime: getIsTimeSetting(),
+    typeMemorize: getTypeSetting(),
   };
   return x;
 };

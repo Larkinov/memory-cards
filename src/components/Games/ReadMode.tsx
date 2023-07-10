@@ -2,20 +2,24 @@ import React from "react";
 import { Card } from "../../redux/slices/PackageSlice";
 import { Button, Grid } from "@mui/material";
 import BasicCard, { HeightCard, WidthCard } from "../UI/BasicCard";
+import { useSelector } from "react-redux";
+import { RootState } from "../../redux/store";
+import { useDispatch } from "react-redux";
+import { setEndRead } from "../../redux/slices/GameSlice";
 
 type ReadModeProps = {
   cards: Card[];
-  endGame: Function;
 };
 
-const ReadMode: React.FC<ReadModeProps> = ({ cards, endGame }) => {
+const ReadMode: React.FC<ReadModeProps> = ({ cards}) => {
   const [iter, setIter] = React.useState(0);
+  const dispatch = useDispatch();
 
   const nextCards = () => {
     if (iter + 1 < cards.length) {
       setIter(iter + 1);
     } else {
-      endGame(true);
+      dispatch(setEndRead(true));
     }
   };
   const prevCards = () => {

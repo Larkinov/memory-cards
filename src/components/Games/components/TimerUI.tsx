@@ -1,15 +1,15 @@
 import React from "react";
 import { Box, Typography } from "@mui/material";
 import { useSelector } from "react-redux";
-import { RootState } from "../../redux/store";
+import { RootState } from "../../../redux/store";
+import { useDispatch } from "react-redux";
+import { setEndGame } from "../../../redux/slices/GameSlice";
 
-type TimerUIProps = {
-  endGame:Function;
-}
 
-const TimerUI: React.FC<TimerUIProps> = ({endGame}) => {
+const TimerUI: React.FC = () => {
   const { timer } = useSelector((state: RootState) => state.settings);
   const [timerState, setTimerState] = React.useState<number>(timer);
+  const dispatch = useDispatch();
   let visibility = false;
   if (timer > 0) {
     visibility = true;
@@ -23,7 +23,7 @@ const TimerUI: React.FC<TimerUIProps> = ({endGame}) => {
     } else {
       
       setTimeout(() => {
-        endGame(true);
+        dispatch(setEndGame(true));
       }, 1000);
     }
   }, [timerState]);

@@ -6,12 +6,14 @@ import ModeGame from "./ModeGame";
 import Timer from "./Timer";
 import RandomCard from "./RandomCard";
 import InfoSettings from "../UI/InfoSettings";
+import TypeGame from "./TypeGame";
 
 const SettingsTab: React.FC = () => {
   return (
     <Grid container sx={{ overflow: "auto" }} p={1} spacing={2} mt={0}>
       <InfoSettings/>
       <ModeGame />
+      <TypeGame/>
       <CountCard />
       <RandomCard/>
       <Timer />

@@ -10,6 +10,8 @@ import { Button } from "@mui/material";
 import CardsTab from "./CardsTab/CardsTab";
 import SettingsTab from "./Settings/SettingsTab";
 import TabPanel from "./UI/TabPanel";
+import { useSelector } from "react-redux";
+import { RootState } from "../redux/store";
 
 function a11yProps(index: number) {
   return {
@@ -20,6 +22,7 @@ function a11yProps(index: number) {
 
 const MainPanel: React.FC = () => {
   const [value, setValue] = React.useState(1);
+  const { thisSubjectId } = useSelector((state: RootState) => state.subjects);
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
@@ -42,14 +45,17 @@ const MainPanel: React.FC = () => {
             aria-label="basic tabs example"
           >
             <Link
-              to={"game"}
+              to={thisSubjectId ? "game" : "#"}
               style={{
                 textDecoration: "none",
-                color: "inherit",
                 marginTop: "10px",
               }}
             >
-              <Button color="success" variant="contained">
+              <Button
+                color="success"
+                variant="contained"
+                disabled={thisSubjectId ? false : true}
+              >
                 Начать
               </Button>
             </Link>

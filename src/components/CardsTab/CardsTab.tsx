@@ -48,7 +48,7 @@ const CardsTab: React.FC = () => {
 
   return (
     <>
-      <Grid container sx={{ overflow: "auto", mt:"15px" }} p={1} spacing={1} mt={0}>
+      <Grid container sx={{ overflow: "auto", mt:"35px", height:"75vh" }} p={1} spacing={1} mt={0}>
         {isError && <Cards/>}
       </Grid>
       {helperText && <Alert severity="info">{helperText}</Alert>}
