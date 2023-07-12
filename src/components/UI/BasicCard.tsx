@@ -30,6 +30,7 @@ type TBasicCard = {
   withButton: boolean;
   id?: number;
   isDelete: boolean;
+  cardColor?:string;
 };
 
 const BasicCard: React.FC<TBasicCard> = ({
@@ -40,6 +41,7 @@ const BasicCard: React.FC<TBasicCard> = ({
   width,
   id,
   isDelete,
+  cardColor,
 }) => {
   const dispatch = useDispatch();
 
@@ -53,7 +55,7 @@ const BasicCard: React.FC<TBasicCard> = ({
     <Card
       sx={{
         height: height,
-        backgroundColor: "#2196f3",
+        backgroundColor: cardColor ? cardColor : "#2196f3",
         color: "white",
         width: width,
         alignItems: "center",

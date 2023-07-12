@@ -1,11 +1,10 @@
 import React from "react";
 import { Card } from "../../redux/slices/PackageSlice";
-import { Button, Grid } from "@mui/material";
+import { Button, Grid} from "@mui/material";
 import BasicCard, { HeightCard, WidthCard } from "../UI/BasicCard";
-import { useSelector } from "react-redux";
-import { RootState } from "../../redux/store";
 import { useDispatch } from "react-redux";
 import { setEndRead } from "../../redux/slices/GameSlice";
+import CountCards from "./components/CountCards";
 
 type ReadModeProps = {
   cards: Card[];
@@ -31,6 +30,7 @@ const ReadMode: React.FC<ReadModeProps> = ({ cards}) => {
 
   return (
     <>
+    <CountCards iter={iter} length={cards.length}/>
       <Grid item xs={12} sx={{ zIndex: 1, m: "20%", mt:"10%" }}>
         {cards.length && (
           <BasicCard

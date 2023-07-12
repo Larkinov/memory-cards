@@ -9,7 +9,7 @@ import TimerUI from "../components/Games/components/TimerUI";
 import { TSubject } from "../redux/slices/SubjectsSlice";
 import { TypePackageEnum } from "../redux/slices/PackageSlice";
 import { useDispatch } from "react-redux";
-import { setEndGame, setEndRead } from "../redux/slices/GameSlice";
+import { setEndGame, setEndRead, setVictory } from "../redux/slices/GameSlice";
 import FourCard from "../components/Games/FourCard";
 
 const GamePage: React.FC = () => {
@@ -46,6 +46,7 @@ const GamePage: React.FC = () => {
   React.useEffect(() => {
     dispatch(setEndRead(false));
     dispatch(setEndGame(false));
+    dispatch(setVictory(false));
   }, [restart]);
 
   return (
