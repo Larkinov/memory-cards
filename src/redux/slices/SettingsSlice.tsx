@@ -8,6 +8,7 @@ export enum GameModeEnum {
 
 export enum TypeMemorizeEnum {
   FOUR_CARD = "FOUR_CARD",
+  LIST_CARD = "LIST_CARD",
 }
 
 export interface ISettings {

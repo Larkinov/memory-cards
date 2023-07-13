@@ -1,77 +1,43 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "../redux/store";
-import { Grid } from "@mui/material";
-import ReadMode from "../components/Games/ReadMode";
 import { getCards } from "../utils/getCards";
-import EndGame from "../components/Games/components/EndGame";
-import TimerUI from "../components/Games/components/TimerUI";
-import { TSubject } from "../redux/slices/SubjectsSlice";
-import { TypePackageEnum } from "../redux/slices/PackageSlice";
-import { useDispatch } from "react-redux";
-import { setEndGame, setEndRead, setVictory } from "../redux/slices/GameSlice";
 import FourCard from "../components/Games/FourCard";
+import { TypeMemorizeEnum } from "../redux/slices/SettingsSlice";
+import GameLayout from "../components/Games/GameLayout";
+import ListCardGame from "../components/Games/ListCardGame";
 
 const GamePage: React.FC = () => {
-  const { gameMode, fullPackage, countCards, randomCards } = useSelector(
+  const { fullPackage, countCards, randomCards, typeMemorize } = useSelector(
     (state: RootState) => state.settings
   );
-  const { thisSubjectId, subjects } = useSelector(
-    (state: RootState) => state.subjects
-  );
-  const dispatch = useDispatch();
+  const { gameCards } = useSelector((state: RootState) => state.game);
 
-  const { endGame, endRead } = useSelector((state: RootState) => state.game);
-  const { isTime } = useSelector((state: RootState) => state.settings);
-  const [restart, setRestart] = React.useState(false);
-
-  const getThisSubject = () => {
-    let x: TSubject = {
-      title: "",
-      id: "",
-      cards: [],
-      type: TypePackageEnum.SIMPLE_PACK,
-    };
-    subjects.forEach((subject) => {
-      if (subject.id === thisSubjectId) {
-        x = subject;
-      }
-    });
-    return x;
-  };
-  const subject: TSubject = getThisSubject();
   const cards = React.useRef(
-    getCards(subject.cards, randomCards, fullPackage, countCards)
+    getCards(gameCards, randomCards, fullPackage, countCards)
   );
-  React.useEffect(() => {
-    dispatch(setEndRead(false));
-    dispatch(setEndGame(false));
-    dispatch(setVictory(false));
-  }, [restart]);
 
-  return (
-    <>
-      <Grid
-        container
-        sx={{ mt: 2, ml: 2, height: "90vh" }}
-        alignItems={"center"}
-        spacing={2}
-      >
-        {!endRead ? (
-          <ReadMode cards={cards.current} />
-        ) : (
-          <>
-            {isTime && <TimerUI />}
-            {!endGame ? (
-              <FourCard cards={cards.current} />
-            ) : (
-              <EndGame restart={restart} setRestart={setRestart} />
-            )}
-          </>
-        )}
-      </Grid>
-    </>
-  );
+  switch (typeMemorize) {
+    case TypeMemorizeEnum.FOUR_CARD:
+      return (
+        <>
+          <GameLayout>
+            <FourCard cards={getCards(gameCards, randomCards, fullPackage, countCards)} />
+          </GameLayout>
+        </>
+      );
+    case TypeMemorizeEnum.LIST_CARD:
+      return (
+        <>
+          <GameLayout>
+            <ListCardGame
+              cards={cards.current}
+              cardsGame={getCards(gameCards, true, fullPackage, countCards)}
+            />
+          </GameLayout>
+        </>
+      );
+  }
 };
 
 export default GamePage;

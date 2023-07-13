@@ -42,7 +42,7 @@ const TypeGame: React.FC = () => {
           <FormLabel id="mode-game">Режим запоминания</FormLabel>
           <RadioGroup
             aria-labelledby="mode-game"
-            defaultValue={TypeMemorizeEnum.FOUR_CARD}
+            defaultValue={typeMemorize}
             name="mode-game"
             value={typeModeState}
             onChange={changeModeGame}
@@ -51,6 +51,12 @@ const TypeGame: React.FC = () => {
               value={TypeMemorizeEnum.FOUR_CARD}
               control={<Radio />}
               label="Четыре карты"
+              disabled={isDisabled}
+            />
+            <FormControlLabel
+              value={TypeMemorizeEnum.LIST_CARD}
+              control={<Radio />}
+              label="Список"
               disabled={isDisabled}
             />
           </RadioGroup>

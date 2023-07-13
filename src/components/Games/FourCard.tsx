@@ -25,36 +25,36 @@ const FourCard: React.FC<FourCardProps> = ({ cards }) => {
 
   const dispatch = useDispatch();
 
-  const onClickCard = (elem: number, index:number) => {
+  const onClickCard = (elem: number, index: number) => {
     if (elem === curCard.current) {
       if (curCard.current + 1 !== cards.length) {
-        setChoices(getArrayColor(index,"green"));
+        setChoices(getArrayColor(index, "green"));
         iter.current = iter.current + 1;
         setRender(true);
       } else {
-        setChoices(getArrayColor(index,"green"));
+        setChoices(getArrayColor(index, "green"));
         dispatch(setVictory(true));
         setTimeout(() => {
           dispatch(setEndGame(true));
-         }, delay);
+        }, delay);
       }
-    }else{
+    } else {
       countWrong.current = countWrong.current + 1;
-     setChoices(getArrayColor(index,"red"));
-     setTimeout(() => {
-      if(countWrong.current>=3){
-        dispatch(setEndGame(true));
-      }else{
-      setChoices(["","","",""]);
-      }
-     }, delay);
+      setChoices(getArrayColor(index, "red"));
+      setTimeout(() => {
+        if (countWrong.current >= 3) {
+          dispatch(setEndGame(true));
+        } else {
+          setChoices(["", "", "", ""]);
+        }
+      }, delay);
     }
   };
 
   React.useEffect(() => {
     if (render) {
       setTimeout(() => {
-        setChoices(["","","",""]);
+        setChoices(["", "", "", ""]);
         curCard.current = curCard.current + 1;
         indices.current = getRandomIndex(cards.length, curCard.current);
         setRender(false);
@@ -64,13 +64,13 @@ const FourCard: React.FC<FourCardProps> = ({ cards }) => {
 
   return (
     <>
-      <CountCards iter={iter.current} length={cards.length}/>
-      <HealthUI wrong={countWrong.current}/>
-      {indices.current.map((elem,index) => (
+      <CountCards iter={iter.current} length={cards.length} />
+      <HealthUI wrong={countWrong.current} />
+      {indices.current.map((elem, index) => (
         <Grid item xs={6} sx={{ zIndex: 1 }}>
           <Button
             sx={{ width: "100%", height: "100%" }}
-            onClick={() => onClickCard(elem,index)}
+            onClick={() => onClickCard(elem, index)}
           >
             <BasicCard
               name={cards[elem].name}

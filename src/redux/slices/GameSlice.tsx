@@ -4,6 +4,7 @@ import { Card } from "./PackageSlice";
 
 
 export interface IGame {
+  gameCards:Card[];
   endGame:boolean;
   endRead:boolean;
   victory:boolean;
@@ -13,6 +14,7 @@ const initialState: IGame = {
     endGame:false,
     endRead:false,
     victory:false,
+    gameCards:[],
 };
 
 export const gameSlice = createSlice({
@@ -28,6 +30,9 @@ export const gameSlice = createSlice({
     setVictory: (state, action: PayloadAction<boolean>) => {
       state.victory = action.payload;
     },
+    setGameCards: (state, action: PayloadAction<Card[]>) => {
+      state.gameCards = action.payload;
+    },
 
   },
 });
@@ -35,7 +40,8 @@ export const gameSlice = createSlice({
 export const {
   setEndGame,
   setEndRead,
-  setVictory
+  setVictory,
+  setGameCards
 } = gameSlice.actions;
 
 export default gameSlice.reducer;

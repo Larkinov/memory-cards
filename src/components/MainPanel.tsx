@@ -12,6 +12,9 @@ import SettingsTab from "./Settings/SettingsTab";
 import TabPanel from "./UI/TabPanel";
 import { useSelector } from "react-redux";
 import { RootState } from "../redux/store";
+import { useDispatch } from "react-redux";
+import { setGameCards } from "../redux/slices/GameSlice";
+import { getThisSubject } from "../utils/getThisSubject";
 
 function a11yProps(index: number) {
   return {
@@ -22,11 +25,17 @@ function a11yProps(index: number) {
 
 const MainPanel: React.FC = () => {
   const [value, setValue] = React.useState(1);
-  const { thisSubjectId } = useSelector((state: RootState) => state.subjects);
+  const { thisSubjectId, subjects } = useSelector((state: RootState) => state.subjects);
+  const dispatch = useDispatch();
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
+
+  const onClickStart = () => { 
+    let subject = getThisSubject(subjects,thisSubjectId);
+    dispatch(setGameCards(subject.cards));
+  }
 
   return (
     <Grid
@@ -55,6 +64,7 @@ const MainPanel: React.FC = () => {
                 color="success"
                 variant="contained"
                 disabled={thisSubjectId ? false : true}
+                onClick={()=>onClickStart()}
               >
                 Начать
               </Button>
