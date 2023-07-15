@@ -3,11 +3,23 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 import HeartBrokenIcon from "@mui/icons-material/HeartBroken";
 
 import React from "react";
+import { useDispatch } from "react-redux";
+import { setEndGame } from "../../../redux/slices/GameSlice";
 
 type HealthProps = {
     wrong:number;
 }
 const HealthUI: React.FC<HealthProps> = ({wrong}) => {
+
+  const dispatch = useDispatch();
+
+  React.useEffect(()=>{
+    if(wrong===3){
+        setTimeout(() => {
+          dispatch(setEndGame(true));
+        }, 800);
+    }
+  },[wrong])
   return (
     <>
       <Stack

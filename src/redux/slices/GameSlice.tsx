@@ -33,7 +33,6 @@ export const gameSlice = createSlice({
     setGameCards: (state, action: PayloadAction<Card[]>) => {
       state.gameCards = action.payload;
     },
-
   },
 });
 

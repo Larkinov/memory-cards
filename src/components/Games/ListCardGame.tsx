@@ -4,32 +4,53 @@ import { Button, Grid, Stack } from "@mui/material";
 import BasicCard, { HeightCard, WidthCard } from "../UI/BasicCard";
 import CountCards from "./components/CountCards";
 import HealthUI from "./components/HealthUI";
-import { getCards } from "../../utils/getCards";
+import { useSelector } from "react-redux";
+import { RootState } from "../../redux/store";
+import { getRandomArray } from "../../utils/getRandomCards";
+import { useDispatch } from "react-redux";
+import { setEndGame, setVictory } from "../../redux/slices/GameSlice";
 
-type ListCardProps = {
-  cards: Card[];
-  cardsGame: Card[];
-};
-
-const ListCardGame: React.FC<ListCardProps> = ({ cards, cardsGame }) => {
+const ListCardGame: React.FC = () => {
+  const delay = 800;
   const iter = React.useRef(0);
   const countWrong = React.useRef(0);
+  const [render, setRender] = React.useState(false);
+  const [end, setEnd] = React.useState(false);
+  const { gameCards } = useSelector((state: RootState) => state.game);
+  const listCards = React.useRef(getRandomArray(gameCards));
+  const dispatch = useDispatch();
+
   const onClickCard = (idCardGame: number) => {
-    if (cards[iter.current].id === idCardGame) {
-      console.log("yes!");
-      iter.current = iter.current + 1;
+    console.log(iter.current, gameCards.length);
+    if (iter.current + 1 >= gameCards.length) {
+      setEnd(true);
     } else {
-      console.log("no!");
+      if (gameCards[iter.current].id === idCardGame) {
+        iter.current = iter.current + 1;
+      } else {
+        countWrong.current = countWrong.current + 1;
+      }
+      setRender(true);
     }
   };
 
+  React.useEffect(() => {
+    if (end) {
+      dispatch(setVictory(true));
+      setTimeout(() => {
+        dispatch(setEndGame(true));
+      }, delay);
+    }
+    setRender(false);
+  }, [render, end]);
+
   return (
     <>
-      <CountCards iter={iter.current} length={cards.length} />
+      <CountCards iter={iter.current} length={gameCards.length} />
       <HealthUI wrong={countWrong.current} />
       <Grid item xs={12} m={"0 30%"}>
         <Stack direction={"column"} sx={{ zIndex: 1 }}>
-          {cardsGame.map((card) => (
+          {listCards.current.map((card) => (
             <Button
               sx={{ width: "100%", height: "100%" }}
               onClick={() => onClickCard(card.id)}

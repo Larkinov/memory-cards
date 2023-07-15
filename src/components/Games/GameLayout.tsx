@@ -10,6 +10,7 @@ import { useDispatch } from "react-redux";
 import {
   setEndGame,
   setEndRead,
+  setGameCards,
   setVictory,
 } from "../../redux/slices/GameSlice";
 import { GameModeEnum } from "../../redux/slices/SettingsSlice";
@@ -18,24 +19,26 @@ type GameLayoutProps = {
 };
 
 const GameLayout: React.FC<GameLayoutProps> = ({ children }) => {
-  const { gameMode } = useSelector((state: RootState) => state.settings);
   const dispatch = useDispatch();
 
   const { endGame, endRead, gameCards } = useSelector(
     (state: RootState) => state.game
   );
-  const { isTime, randomCards, fullPackage, countCards } = useSelector(
-    (state: RootState) => state.settings
-  );
+  const { isTime, randomCards, fullPackage, countCards, gameMode } =
+    useSelector((state: RootState) => state.settings);
   const [restart, setRestart] = React.useState(false);
   const cards = React.useRef(
     getCards(gameCards, randomCards, fullPackage, countCards)
   );
+
   React.useEffect(() => {
+    dispatch(setGameCards(cards.current));
     dispatch(setEndRead(false));
     dispatch(setEndGame(false));
     dispatch(setVictory(false));
   }, [restart]);
+
+  console.log("gameCards - GameLayout");
 
   if (gameMode === GameModeEnum.MODE_READ) {
     return (

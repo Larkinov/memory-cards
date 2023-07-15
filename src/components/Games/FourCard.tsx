@@ -1,33 +1,34 @@
 import React from "react";
-import { Card } from "../../redux/slices/PackageSlice";
 import { Button, Grid } from "@mui/material";
 import BasicCard, { HeightCard, WidthCard } from "../UI/BasicCard";
-import { getRandomIndex } from "../../utils/getRandomIndex";
 import { useDispatch } from "react-redux";
 import { setEndGame, setVictory } from "../../redux/slices/GameSlice";
 import { getArrayColor } from "../../utils/getArrayColor";
 import CountCards from "./components/CountCards";
 import HealthUI from "./components/HealthUI";
+import { useSelector } from "react-redux";
+import { RootState } from "../../redux/store";
+import { getRandomArray, getRandomIndex } from "../../utils/getRandomCards";
 
-type FourCardProps = {
-  cards: Card[];
-};
-
-const FourCard: React.FC<FourCardProps> = ({ cards }) => {
+const FourCard: React.FC = () => {
   const delay = 800;
-
+  const { gameCards } = useSelector((state: RootState) => state.game);
   const [render, setRender] = React.useState(false);
   const iter = React.useRef(0);
   const countWrong = React.useRef(0);
   const [choices, setChoices] = React.useState(["", "", "", ""]);
   const curCard = React.useRef(0);
-  const indices = React.useRef(getRandomIndex(cards.length, curCard.current));
+  const indices = React.useRef(
+    getRandomIndex(gameCards.length, curCard.current)
+  );
+
+  console.log(getRandomArray(gameCards));
 
   const dispatch = useDispatch();
 
   const onClickCard = (elem: number, index: number) => {
     if (elem === curCard.current) {
-      if (curCard.current + 1 !== cards.length) {
+      if (curCard.current + 1 !== gameCards.length) {
         setChoices(getArrayColor(index, "green"));
         iter.current = iter.current + 1;
         setRender(true);
@@ -42,11 +43,7 @@ const FourCard: React.FC<FourCardProps> = ({ cards }) => {
       countWrong.current = countWrong.current + 1;
       setChoices(getArrayColor(index, "red"));
       setTimeout(() => {
-        if (countWrong.current >= 3) {
-          dispatch(setEndGame(true));
-        } else {
-          setChoices(["", "", "", ""]);
-        }
+        setChoices(["", "", "", ""]);
       }, delay);
     }
   };
@@ -56,7 +53,7 @@ const FourCard: React.FC<FourCardProps> = ({ cards }) => {
       setTimeout(() => {
         setChoices(["", "", "", ""]);
         curCard.current = curCard.current + 1;
-        indices.current = getRandomIndex(cards.length, curCard.current);
+        indices.current = getRandomIndex(gameCards.length, curCard.current);
         setRender(false);
       }, delay);
     }
@@ -64,7 +61,7 @@ const FourCard: React.FC<FourCardProps> = ({ cards }) => {
 
   return (
     <>
-      <CountCards iter={iter.current} length={cards.length} />
+      <CountCards iter={iter.current} length={gameCards.length} />
       <HealthUI wrong={countWrong.current} />
       {indices.current.map((elem, index) => (
         <Grid item xs={6} sx={{ zIndex: 1 }}>
@@ -73,9 +70,9 @@ const FourCard: React.FC<FourCardProps> = ({ cards }) => {
             onClick={() => onClickCard(elem, index)}
           >
             <BasicCard
-              name={cards[elem].name}
-              description={cards[elem].description}
-              key={cards[elem].name}
+              name={gameCards[elem].name}
+              description={gameCards[elem].description}
+              key={gameCards[elem].name}
               height={HeightCard.HEAVY}
               withButton={false}
               width={WidthCard.FULL}
