@@ -11,17 +11,19 @@ import { Button } from "@mui/material";
 import AuthUI from "../Auth/AuthUI";
 import { useSelector } from "react-redux";
 import { RootState, useAppDispatch } from "../../redux/store";
-import { useDispatch } from "react-redux";
 import { fetchPackageDB } from "../../redux/slices/SubjectsSlice";
 
 const Header: React.FC = () => {
   const appDispatch = useAppDispatch();
   const [isOpen, setIsOpen] = React.useState(false);
   const { email, id } = useSelector((state: RootState) => state.user);
-
+  const { subjects } = useSelector((state: RootState) => state.subjects);
+  
   React.useEffect(() => {
     if (email !== "login") {
-      appDispatch(fetchPackageDB(id));
+      if (subjects.length === 0) {
+        appDispatch(fetchPackageDB(id));
+      }
     }
   }, [email]);
 

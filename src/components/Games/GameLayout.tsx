@@ -38,8 +38,6 @@ const GameLayout: React.FC<GameLayoutProps> = ({ children }) => {
     dispatch(setVictory(false));
   }, [restart]);
 
-  console.log("gameCards - GameLayout");
-
   if (gameMode === GameModeEnum.MODE_READ) {
     return (
       <>

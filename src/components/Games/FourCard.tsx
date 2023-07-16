@@ -3,12 +3,11 @@ import { Button, Grid } from "@mui/material";
 import BasicCard, { HeightCard, WidthCard } from "../UI/BasicCard";
 import { useDispatch } from "react-redux";
 import { setEndGame, setVictory } from "../../redux/slices/GameSlice";
-import { getArrayColor } from "../../utils/getArrayColor";
 import CountCards from "./components/CountCards";
 import HealthUI from "./components/HealthUI";
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
-import { getRandomArray, getRandomIndex } from "../../utils/getRandomCards";
+import {  getRandomFour } from "../../utils/getRandomCards";
 
 const FourCard: React.FC = () => {
   const delay = 800;
@@ -16,68 +15,59 @@ const FourCard: React.FC = () => {
   const [render, setRender] = React.useState(false);
   const iter = React.useRef(0);
   const countWrong = React.useRef(0);
-  const [choices, setChoices] = React.useState(["", "", "", ""]);
-  const curCard = React.useRef(0);
-  const indices = React.useRef(
-    getRandomIndex(gameCards.length, curCard.current)
-  );
-
-  console.log(getRandomArray(gameCards));
-
+  const fourCard = React.useRef(getRandomFour(gameCards, iter.current));
   const dispatch = useDispatch();
+  const [end, setEnd] = React.useState(false);
 
-  const onClickCard = (elem: number, index: number) => {
-    if (elem === curCard.current) {
-      if (curCard.current + 1 !== gameCards.length) {
-        setChoices(getArrayColor(index, "green"));
-        iter.current = iter.current + 1;
-        setRender(true);
-      } else {
-        setChoices(getArrayColor(index, "green"));
-        dispatch(setVictory(true));
-        setTimeout(() => {
-          dispatch(setEndGame(true));
-        }, delay);
-      }
-    } else {
-      countWrong.current = countWrong.current + 1;
-      setChoices(getArrayColor(index, "red"));
+  const onClickCard = (idCard: number) => {
+    if (iter.current + 1 >= gameCards.length) {
       setTimeout(() => {
-        setChoices(["", "", "", ""]);
+        setRender(true);        
+        setEnd(true);
       }, delay);
+    } else {
+      if (gameCards[iter.current].id === idCard) {
+        iter.current = iter.current + 1;
+        fourCard.current = getRandomFour(gameCards, iter.current);
+      } else {
+        countWrong.current = countWrong.current + 1;
+      }
     }
+    setTimeout(() => {
+      setRender(true);
+    }, delay);
   };
 
   React.useEffect(() => {
-    if (render) {
+    if (end) {
+      dispatch(setVictory(true));
       setTimeout(() => {
-        setChoices(["", "", "", ""]);
-        curCard.current = curCard.current + 1;
-        indices.current = getRandomIndex(gameCards.length, curCard.current);
-        setRender(false);
+        dispatch(setEndGame(true));
       }, delay);
     }
-  }, [render]);
+    setRender(false);
+  }, [render, end]);
 
   return (
     <>
       <CountCards iter={iter.current} length={gameCards.length} />
       <HealthUI wrong={countWrong.current} />
-      {indices.current.map((elem, index) => (
+      {fourCard.current.map((elem) => (
         <Grid item xs={6} sx={{ zIndex: 1 }}>
           <Button
             sx={{ width: "100%", height: "100%" }}
-            onClick={() => onClickCard(elem, index)}
+            onClick={() => onClickCard(elem.id)}
           >
             <BasicCard
-              name={gameCards[elem].name}
-              description={gameCards[elem].description}
-              key={gameCards[elem].name}
+              name={elem.name}
+              description={elem.description}
+              key={elem.name}
               height={HeightCard.HEAVY}
               withButton={false}
               width={WidthCard.FULL}
               isDelete={false}
-              cardColor={choices[index]}
+              id={elem.id}
+              idGameCard={gameCards[iter.current].id}
             />
           </Button>
         </Grid>

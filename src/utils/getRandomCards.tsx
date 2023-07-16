@@ -1,3 +1,5 @@
+import { Card } from "../redux/slices/PackageSlice";
+
 export const getRandomArray = (anyArray: any[]) => {
   let array: any[] = [];
 
@@ -19,15 +21,17 @@ export const getRandomArray = (anyArray: any[]) => {
   return array;
 };
 
-export const getRandomIndex = (arrLength: number, curIndex: number) => {
-    let indices: number[] = [curIndex];
-    while (indices.length < 4) {
-      let random = Math.floor(Math.random() * arrLength);
-      if (!indices.includes(random)) {
-        indices.push(random);
-      }
-    }
-    getRandomArray(indices);
-    return indices;
-  };
-  
+export const getRandomFour = (cards: Card[], idGameCard: number) => {
+  let fourArr: Card[] = [];
+  let rndCards = getRandomArray(cards);
+  for (let i = 0; i < 4; i++) {
+    fourArr.push(rndCards[i]);
+  }
+
+  if(!fourArr.includes(cards[idGameCard])){
+    let rndIndex = Math.ceil(Math.random()*4);
+    fourArr[rndIndex] = cards[idGameCard];
+  }
+
+  return fourArr;
+};

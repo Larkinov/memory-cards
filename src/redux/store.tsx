@@ -5,6 +5,7 @@ import SubjectsSlice from './slices/SubjectsSlice'
 import UserSlice from './slices/UserSlice'
 import { useDispatch } from 'react-redux'
 import GameSlice from './slices/GameSlice'
+import InterfaceSlice from './slices/InterfaceSlice'
 
 export const store = configureStore({
   reducer: {
@@ -13,6 +14,7 @@ export const store = configureStore({
     settings:SettingsSlice,
     user:UserSlice,
     game:GameSlice,
+    interfaceUI: InterfaceSlice,
   },
 })
 

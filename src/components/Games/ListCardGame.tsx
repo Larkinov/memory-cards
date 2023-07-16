@@ -21,7 +21,6 @@ const ListCardGame: React.FC = () => {
   const dispatch = useDispatch();
 
   const onClickCard = (idCardGame: number) => {
-    console.log(iter.current, gameCards.length);
     if (iter.current + 1 >= gameCards.length) {
       setEnd(true);
     } else {
@@ -63,7 +62,8 @@ const ListCardGame: React.FC = () => {
                 withButton={false}
                 width={WidthCard.FULL}
                 isDelete={false}
-                cardColor=""
+                idGameCard={gameCards[iter.current].id}
+                id={card.id}
               />
             </Button>
           ))}

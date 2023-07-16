@@ -15,11 +15,11 @@ import {
   TSubject,
   clearSubjects,
   setIdSubject,
-  setSubject,
 } from "../redux/slices/SubjectsSlice";
 import { clearInitialState } from "../redux/slices/PackageSlice";
 import { useSelector } from "react-redux";
 import { RootState } from "../redux/store";
+import { setCurrentTab } from "../redux/slices/InterfaceSlice";
 
 const ListSubjects: React.FC = () => {
   const dispatch = useDispatch();
@@ -27,8 +27,9 @@ const ListSubjects: React.FC = () => {
   const [open, setOpen] = React.useState(false);
   const { email } = useSelector((state: RootState) => state.user);
 
-  const onClickSubject = (elem: TSubject) => {    
+  const onClickSubject = (elem: TSubject) => {
     dispatch(setIdSubject(elem.id));
+    dispatch(setCurrentTab(1));
   };
 
   const openAddPanel = () => {
@@ -38,7 +39,6 @@ const ListSubjects: React.FC = () => {
 
   React.useEffect(() => {
     if (email) {
-
     } else {
       dispatch(clearSubjects());
     }

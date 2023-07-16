@@ -34,14 +34,20 @@ const InfoSettings = () => {
         <DialogTitle id="alert-dialog-title">Информация</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-            <b>Режим игры чтение</b> - в этом режиме нет этапа запоминания,
+            <b>Режим игры «Чтение»</b> - в этом режиме нет этапа запоминания,
             поэтому карточки появляются только для чтения. Также здесь
             отсутствует время для спокойного чтения карточек.
           </DialogContentText>
           <DialogContentText id="alert-dialog-description">
-            <b>Режим игры запоминание</b> - после того, как будут прочитаны
+            <b>Режим игры «Запоминание»</b> - после того, как будут прочитаны
             карточки, начнется этап запоминания - небольшая игра для того чтобы
             вспомнить порядок слов.
+          </DialogContentText>
+          <DialogContentText id="alert-dialog-description">
+            <b>Режим запоминания «Четыре карты»</b> - в этом режиме вам необходимо из четырех карт выбрать ту, которая шла в порядке очереди.
+          </DialogContentText>
+          <DialogContentText id="alert-dialog-description">
+            <b>Режим запоминания «Список»</b> - вам будет дан список всех слов и необходимо выбрать их по порядку появления.
           </DialogContentText>
           <DialogContentText id="alert-dialog-description">
             <b>Количество карточек</b> - можно выбрать весь пакет или какое-то

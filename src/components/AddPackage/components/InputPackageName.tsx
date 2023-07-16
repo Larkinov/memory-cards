@@ -2,8 +2,6 @@ import { TextField } from "@mui/material";
 import React from "react";
 import { useDispatch } from "react-redux";
 import { setName } from "../../../redux/slices/PackageSlice";
-import { useSelector } from "react-redux";
-import { RootState } from "../../../redux/store";
 
 type InputProps = {
   isError:boolean;
@@ -11,7 +9,6 @@ type InputProps = {
 }
 
 const InputPackageName: React.FC<InputProps> = ({isError, onFocus}) => {
-  const {name} = useSelector((state:RootState)=>state.package);
   const dispatch = useDispatch();
   const [value, setValue] = React.useState("");
   const [errorText, setErrorText] = React.useState("");

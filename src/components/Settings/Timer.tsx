@@ -70,12 +70,12 @@ const Timer: React.FC = () => {
           sx={{ mb: "0.5rem" }}
         />
         <Stack spacing={2} direction="row" sx={{ mb: 1 }} alignItems="center">
-          <Typography>30</Typography>
+          <Typography>40</Typography>
           <Slider
             sx={{ width: "65%" }}
-            min={30}
+            min={40}
             max={600}
-            step={15}
+            step={40}
             disabled={!isTimerState}
             valueLabelDisplay="auto"
             aria-label="Volume"

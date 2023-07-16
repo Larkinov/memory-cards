@@ -49,8 +49,8 @@ const {fullPackage,countCards} = useSelector((state:RootState)=>state.settings);
           <Slider
             sx={{ width: "65%" }}
             min={4}
-            max={50}
-            step={2}
+            max={40}
+            step={4}
             disabled={isFull}
             valueLabelDisplay="auto"
             aria-label="Volume"

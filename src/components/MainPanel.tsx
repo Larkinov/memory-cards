@@ -15,6 +15,7 @@ import { RootState } from "../redux/store";
 import { useDispatch } from "react-redux";
 import { setGameCards } from "../redux/slices/GameSlice";
 import { getThisSubject } from "../utils/getThisSubject";
+import { setCurrentTab } from "../redux/slices/InterfaceSlice";
 
 function a11yProps(index: number) {
   return {
@@ -24,18 +25,20 @@ function a11yProps(index: number) {
 }
 
 const MainPanel: React.FC = () => {
-  const [value, setValue] = React.useState(1);
-  const { thisSubjectId, subjects } = useSelector((state: RootState) => state.subjects);
+  const { currentTab } = useSelector((state: RootState) => state.interfaceUI);
+  const { thisSubjectId, subjects } = useSelector(
+    (state: RootState) => state.subjects
+  );
   const dispatch = useDispatch();
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
-    setValue(newValue);
+    dispatch(setCurrentTab(newValue));
   };
 
-  const onClickStart = () => { 
-    let subject = getThisSubject(subjects,thisSubjectId);
+  const onClickStart = () => {
+    let subject = getThisSubject(subjects, thisSubjectId);
     dispatch(setGameCards(subject.cards));
-  }
+  };
 
   return (
     <Grid
@@ -49,7 +52,7 @@ const MainPanel: React.FC = () => {
       <Grid item xs={12} sx={{ height: "100%", mb: "100px" }}>
         <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
           <Tabs
-            value={value}
+            value={currentTab}
             onChange={handleChange}
             aria-label="basic tabs example"
           >
@@ -64,7 +67,7 @@ const MainPanel: React.FC = () => {
                 color="success"
                 variant="contained"
                 disabled={thisSubjectId ? false : true}
-                onClick={()=>onClickStart()}
+                onClick={() => onClickStart()}
               >
                 Начать
               </Button>
@@ -74,10 +77,10 @@ const MainPanel: React.FC = () => {
             <Tab label="Настройки" {...a11yProps(2)} />
           </Tabs>
         </Box>
-        <TabPanel value={value} index={1}>
+        <TabPanel value={currentTab} index={1}>
           <CardsTab />
         </TabPanel>
-        <TabPanel value={value} index={2}>
+        <TabPanel value={currentTab} index={2}>
           <SettingsTab />
         </TabPanel>
       </Grid>

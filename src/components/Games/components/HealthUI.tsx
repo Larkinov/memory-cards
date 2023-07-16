@@ -24,7 +24,7 @@ const HealthUI: React.FC<HealthProps> = ({wrong}) => {
     <>
       <Stack
         position={"absolute"}
-        sx={{ top: "110px", left: "40px" }}
+        sx={{ top: "100px", left: "40px" }}
         direction={"row"}
       >
         {wrong < 3 ?  <FavoriteIcon color="error" /> : <HeartBrokenIcon color="error"/>}
