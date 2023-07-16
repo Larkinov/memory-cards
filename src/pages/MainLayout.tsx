@@ -7,7 +7,7 @@ const MainLayout:React.FC = () => {
   return (
     <div>
       <Header />
-      <Box height={"90vh"} mt={"10px"}>
+      <Box height={"90vh"} mt={"10px"} bgcolor={"white"}>
         <Grid container spacing={2} height={"100%"}>
           <Outlet/>
         </Grid>

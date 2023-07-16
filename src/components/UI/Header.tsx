@@ -12,13 +12,14 @@ import AuthUI from "../Auth/AuthUI";
 import { useSelector } from "react-redux";
 import { RootState, useAppDispatch } from "../../redux/store";
 import { fetchPackageDB } from "../../redux/slices/SubjectsSlice";
+import MainSettings from "./MainSettings";
 
 const Header: React.FC = () => {
   const appDispatch = useAppDispatch();
   const [isOpen, setIsOpen] = React.useState(false);
   const { email, id } = useSelector((state: RootState) => state.user);
   const { subjects } = useSelector((state: RootState) => state.subjects);
-  
+
   React.useEffect(() => {
     if (email !== "login") {
       if (subjects.length === 0) {
@@ -39,15 +40,7 @@ const Header: React.FC = () => {
           <Button color="inherit" onClick={() => setIsOpen(true)}>
             {email}
           </Button>
-          <IconButton
-            size="large"
-            edge="start"
-            color="inherit"
-            aria-label="menu"
-            sx={{ ml: "5px" }}
-          >
-            <SettingsIcon />
-          </IconButton>
+          <MainSettings />
         </Toolbar>
       </AppBar>
       <AuthUI isOpen={isOpen} setIsOpen={setIsOpen} />
