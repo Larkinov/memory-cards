@@ -11,28 +11,31 @@ import { loadingSettings } from "./utils/localSettings";
 import { ThemeProvider } from "@mui/material/styles";
 import { useSelector } from "react-redux";
 import { RootState } from "./redux/store";
+import { Paper } from "@mui/material";
+import "./style.css";
 
 const App: React.FC = () => {
-
-  const {theme} = useSelector((state:RootState)=> state.interfaceUI);
-  const dispatch = useDispatch();
+  const { theme } = useSelector((state: RootState) => state.interfaceUI);
   
+  const dispatch = useDispatch();
+
   React.useEffect(() => {
     loadingSettings(dispatch);
   }, []);
-  React.useEffect(() => {    
-  }, [theme]);
+  React.useEffect(() => {}, [theme]);
 
   return (
     <>
       <ThemeProvider theme={theme}>
-        <Routes>
-          <Route path="/" element={<MainLayout />}>
-            <Route path="" element={<MainPage />} />
-            <Route path="game" element={<GamePage />} />
-            <Route path="*" element={<NotFoundPage />} />
-          </Route>
-        </Routes>
+        <Paper sx={{height:"100vh", boxShadow:"none", borderRadius:"0"}}>
+          <Routes>
+            <Route path="/" element={<MainLayout />}>
+              <Route path="" element={<MainPage />} />
+              <Route path="game" element={<GamePage />} />
+              <Route path="*" element={<NotFoundPage />} />
+            </Route>
+          </Routes>
+        </Paper>
       </ThemeProvider>
     </>
   );

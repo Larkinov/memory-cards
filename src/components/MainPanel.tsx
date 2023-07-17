@@ -47,14 +47,15 @@ const MainPanel: React.FC = () => {
       xl={10}
       md={9}
       xs={8}
-      sx={{ height: "100%", position: "relative" }}
+      sx={{ height: "100%", position: "relative",}}
     >
-      <Grid item xs={12} sx={{ height: "100%", mb: "100px" }}>
+      <Grid item xs={12} sx={{ height: "102%", border: "1px solid lightgray", mr:"10px"}}>
         <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
           <Tabs
             value={currentTab}
             onChange={handleChange}
             aria-label="basic tabs example"
+            sx={{ml:"10px"}}
           >
             <Link
               to={thisSubjectId ? "game" : "#"}

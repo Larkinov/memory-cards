@@ -1,6 +1,5 @@
 import React from "react";
-import { Card } from "../../redux/slices/PackageSlice";
-import { Button, Grid, Stack } from "@mui/material";
+import { Button, Grid, Stack, Paper } from "@mui/material";
 import BasicCard, { HeightCard, WidthCard } from "../UI/BasicCard";
 import CountCards from "./components/CountCards";
 import HealthUI from "./components/HealthUI";
@@ -47,28 +46,30 @@ const ListCardGame: React.FC = () => {
     <>
       <CountCards iter={iter.current} length={gameCards.length} />
       <HealthUI wrong={countWrong.current} />
-      <Grid item xs={12} m={"0 30%"}>
-        <Stack direction={"column"} sx={{ zIndex: 1 }}>
-          {listCards.current.map((card) => (
-            <Button
-              sx={{ width: "100%", height: "100%" }}
-              onClick={() => onClickCard(card.id)}
-            >
-              <BasicCard
-                name={card.name}
-                description={card.description}
-                key={card.name}
-                height={HeightCard.SMALL}
-                withButton={false}
-                width={WidthCard.FULL}
-                isDelete={false}
-                idGameCard={gameCards[iter.current].id}
-                id={card.id}
-              />
-            </Button>
-          ))}
-        </Stack>
-      </Grid>
+      <Paper sx={{ width: "100%" }}>
+        <Grid item xs={12} m={"0 30%"} mt={"10%"}>
+          <Stack direction={"column"} sx={{ zIndex: 1 }}>
+            {listCards.current.map((card) => (
+              <Button
+                sx={{ width: "100%", height: "100%" }}
+                onClick={() => onClickCard(card.id)}
+              >
+                <BasicCard
+                  name={card.name}
+                  description={card.description}
+                  key={card.name}
+                  height={HeightCard.SMALL}
+                  withButton={false}
+                  width={WidthCard.FULL}
+                  isDelete={false}
+                  idGameCard={gameCards[iter.current].id}
+                  id={card.id}
+                />
+              </Button>
+            ))}
+          </Stack>
+        </Grid>
+      </Paper>
     </>
   );
 };

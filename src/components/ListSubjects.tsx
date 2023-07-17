@@ -47,7 +47,7 @@ const ListSubjects: React.FC = () => {
   return (
     <Grid item xl={2} md={3} xs={4} sx={{ height: "100%" }}>
       <List
-        sx={{ height: "100%", border: "1px solid lightgray", overflow: "auto" }}
+        sx={{ height: "100%", border: "1px solid lightgray", overflow: "auto", ml:"10px"}}
       >
         <Typography variant="h6" align="center" fontWeight={400}>
           Темы
