@@ -9,13 +9,14 @@ import {
   setRandomCards,
   setTimer,
   TypeMemorizeEnum,
-  setTypeMemorize
+  setTypeMemorize,
 } from "../redux/slices/SettingsSlice";
+import { ModeTheme } from "../redux/slices/InterfaceSlice";
 
 export const loadingSettings = (dispatch: Dispatch<AnyAction>) => {
   if (localStorage.getItem("firstLoading") !== "1") {
     setDefaultSettings();
-    localStorage.setItem("firstLoading","1")
+    localStorage.setItem("firstLoading", "1");
   } else {
     let x: ISettings = getSettings();
     dispatch(setIsTime(x.isTime));
@@ -46,6 +47,7 @@ export const setDefaultSettings = () => {
   localStorage.setItem("randomCards", "false");
   localStorage.setItem("isTime", "false");
   localStorage.setItem("typeMemorize", TypeMemorizeEnum.FOUR_CARD);
+  localStorage.setItem("theme", "light");
 };
 
 export const setModeSetting = (mode: GameModeEnum) => {
@@ -83,7 +85,7 @@ export const getModeSetting = (): GameModeEnum => {
   let x = localStorage.getItem("gameMode") as GameModeEnum;
   return x;
 };
-export const getTypeSetting = (): TypeMemorizeEnum=> {
+export const getTypeSetting = (): TypeMemorizeEnum => {
   let x = localStorage.getItem("typeMemorize") as TypeMemorizeEnum;
   return x;
 };
@@ -123,3 +125,18 @@ export const getSettings = (): ISettings => {
   };
   return x;
 };
+
+export const setThemeSetting = (theme: ModeTheme) => {  
+  switch (theme) {
+    case ModeTheme.LIGHT_THEME:
+      localStorage.setItem("theme", ModeTheme.LIGHT_THEME);
+      break;
+    case ModeTheme.DARK_THEME:
+      localStorage.setItem("theme", ModeTheme.DARK_THEME);
+      break;
+  }
+};
+
+export const getThemeSetting = () => {
+  return localStorage.getItem("theme");
+}

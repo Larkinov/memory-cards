@@ -4,7 +4,7 @@ import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
-import { Dialog, DialogContent, Box } from "@mui/material";
+import { Dialog, DialogContent, Box, createTheme } from "@mui/material";
 import ClearIcon from "@mui/icons-material/Clear";
 import { useDispatch } from "react-redux";
 import { removeCard } from "../../redux/slices/PackageSlice";
@@ -14,6 +14,7 @@ export enum HeightCard {
   MEDIUM = "15vh",
   LARGE = "20vh",
   HEAVY = "25vh",
+  READ_MODE = "35vh",
 }
 
 export enum WidthCard {
@@ -33,6 +34,7 @@ type TBasicCard = {
   id?: number;
   isDelete: boolean;
   idGameCard?: number;
+  isRead?: boolean;
 };
 
 const BasicCard: React.FC<TBasicCard> = ({
@@ -44,6 +46,7 @@ const BasicCard: React.FC<TBasicCard> = ({
   id,
   isDelete,
   idGameCard,
+  isRead,
 }) => {
   const dispatch = useDispatch();
   const [backColor, setBackColor] = React.useState("#2196f3");
@@ -99,8 +102,8 @@ const BasicCard: React.FC<TBasicCard> = ({
               <Typography
                 variant="body1"
                 component="div"
-                height={"5vh"}
-                sx={{ whiteSpace: "wrap", overflow: "hidden" }}
+                height={!isRead ? "5vh" : HeightCard.MEDIUM}
+                sx={!isRead ? { whiteSpace: "wrap", overflow: "hidden" } : {overflow:"auto"}}
               >
                 {description}
               </Typography>

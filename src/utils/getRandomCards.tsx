@@ -24,14 +24,15 @@ export const getRandomArray = (anyArray: any[]) => {
 export const getRandomFour = (cards: Card[], idGameCard: number) => {
   let fourArr: Card[] = [];
   let rndCards = getRandomArray(cards);
+
   for (let i = 0; i < 4; i++) {
     fourArr.push(rndCards[i]);
   }
-
+  
   if(!fourArr.includes(cards[idGameCard])){
     let rndIndex = Math.ceil(Math.random()*4);
     fourArr[rndIndex] = cards[idGameCard];
-  }
+  }  
 
   return fourArr;
 };

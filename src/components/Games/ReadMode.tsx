@@ -1,16 +1,17 @@
 import React from "react";
-import { Card } from "../../redux/slices/PackageSlice";
 import { Button, Grid} from "@mui/material";
 import BasicCard, { HeightCard, WidthCard } from "../UI/BasicCard";
 import { useDispatch } from "react-redux";
 import { setEndRead } from "../../redux/slices/GameSlice";
 import CountCards from "./components/CountCards";
+import { Card } from "../../redux/slices/PackageSlice";
 
 type ReadModeProps = {
   cards: Card[];
 };
 
 const ReadMode: React.FC<ReadModeProps> = ({ cards}) => {
+
   const [iter, setIter] = React.useState(0);
   const dispatch = useDispatch();
 
@@ -41,6 +42,7 @@ const ReadMode: React.FC<ReadModeProps> = ({ cards}) => {
             withButton={false}
             width={WidthCard.FULL}
             isDelete={false}
+            isRead = {true}
           />
         )}
       </Grid>

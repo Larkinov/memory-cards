@@ -46,8 +46,8 @@ const ListCardGame: React.FC = () => {
     <>
       <CountCards iter={iter.current} length={gameCards.length} />
       <HealthUI wrong={countWrong.current} />
-      <Paper sx={{ width: "100%" }}>
-        <Grid item xs={12} m={"0 30%"} mt={"10%"}>
+      <Paper sx={{ width: "100%", boxShadow:"none"}}>
+        <Grid item xs={12} m={"0 30%"} mt={"6%"}>
           <Stack direction={"column"} sx={{ zIndex: 1 }}>
             {listCards.current.map((card) => (
               <Button
@@ -56,7 +56,7 @@ const ListCardGame: React.FC = () => {
               >
                 <BasicCard
                   name={card.name}
-                  description={card.description}
+                  description={""}
                   key={card.name}
                   height={HeightCard.SMALL}
                   withButton={false}

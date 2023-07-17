@@ -5,24 +5,15 @@ import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import { IconButton, createTheme } from "@mui/material";
 import { useDispatch } from "react-redux";
-import { setTheme } from "../../redux/slices/InterfaceSlice";
+import { ModeTheme, setTheme } from "../../redux/slices/InterfaceSlice";
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
+import { setThemeSetting } from "../../utils/localSettings";
 
 export default function MainSettings() {
-  const lightTheme = createTheme({
-    palette: {
-      mode: "light",
-    },
-  });
-  const darkTheme = createTheme({
-    palette: {
-      mode: "dark",
-    },
-  });
+
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
-  const isDark = React.useRef(false);
   const dispatch = useDispatch();
   const {theme} = useSelector((state:RootState)=>state.interfaceUI);
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -33,16 +24,16 @@ export default function MainSettings() {
   };
 
   const onClickTheme = () => {
-    
-    if (isDark.current) {
-      dispatch(setTheme(darkTheme));
-    } else {        
-      dispatch(setTheme(lightTheme));
+    if(theme === ModeTheme.DARK_THEME){
+      dispatch(setTheme(ModeTheme.LIGHT_THEME));
+      setThemeSetting(ModeTheme.LIGHT_THEME);
+    }else{
+      dispatch(setTheme(ModeTheme.DARK_THEME));
+      setThemeSetting(ModeTheme.DARK_THEME);
     }
   };
 
-  React.useEffect(()=>{
-    isDark.current = !isDark.current;    
+  React.useEffect(()=>{ 
   },[theme])
 
   return (
@@ -65,7 +56,7 @@ export default function MainSettings() {
           "aria-labelledby": "basic-button",
         }}
       >
-        <MenuItem onClick={() => onClickTheme()}>Темная тема</MenuItem>
+        <MenuItem onClick={() => onClickTheme()}>{theme===ModeTheme.DARK_THEME ? "Светлая тема" : "Темная тема"}</MenuItem>
       </Menu>
     </div>
   );

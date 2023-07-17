@@ -7,7 +7,7 @@ import CountCards from "./components/CountCards";
 import HealthUI from "./components/HealthUI";
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
-import {  getRandomFour } from "../../utils/getRandomCards";
+import { getRandomFour } from "../../utils/getRandomCards";
 
 const FourCard: React.FC = () => {
   const delay = 800;
@@ -22,7 +22,7 @@ const FourCard: React.FC = () => {
   const onClickCard = (idCard: number) => {
     if (iter.current + 1 >= gameCards.length) {
       setTimeout(() => {
-        setRender(true);        
+        setRender(true);
         setEnd(true);
       }, delay);
     } else {
@@ -54,22 +54,26 @@ const FourCard: React.FC = () => {
       <HealthUI wrong={countWrong.current} />
       {fourCard.current.map((elem) => (
         <Grid item xs={6} sx={{ zIndex: 1 }}>
-          <Button
-            sx={{ width: "100%", height: "100%" }}
-            onClick={() => onClickCard(elem.id)}
-          >
-            <BasicCard
-              name={elem.name}
-              description={elem.description}
-              key={elem.name}
-              height={HeightCard.HEAVY}
-              withButton={false}
-              width={WidthCard.FULL}
-              isDelete={false}
-              id={elem.id}
-              idGameCard={gameCards[iter.current].id}
-            />
-          </Button>
+          {elem && (
+            <>
+              <Button
+                sx={{ width: "100%", height: "100%" }}
+                onClick={() => onClickCard(elem.id)}
+              >
+                <BasicCard
+                  name={elem.name}
+                  description={""}
+                  key={elem.name}
+                  height={HeightCard.HEAVY}
+                  withButton={false}
+                  width={WidthCard.FULL}
+                  isDelete={false}
+                  id={elem.id}
+                  idGameCard={gameCards[iter.current].id}
+                />
+              </Button>
+            </>
+          )}
         </Grid>
       ))}
     </>

@@ -8,26 +8,36 @@ import NotFoundPage from "./pages/NotFoundPage";
 import MainLayout from "./pages/MainLayout";
 import { loadingSettings } from "./utils/localSettings";
 
-import { ThemeProvider } from "@mui/material/styles";
+import { ThemeProvider, createTheme } from "@mui/material/styles";
 import { useSelector } from "react-redux";
 import { RootState } from "./redux/store";
 import { Paper } from "@mui/material";
 import "./style.css";
+import { ModeTheme } from "./redux/slices/InterfaceSlice";
 
 const App: React.FC = () => {
+  const lightTheme = createTheme({
+    palette: {
+      mode: "light",
+    },
+  });
+  const darkTheme = createTheme({
+    palette: {
+      mode: "dark",
+    },
+  });
   const { theme } = useSelector((state: RootState) => state.interfaceUI);
-  
+
   const dispatch = useDispatch();
 
   React.useEffect(() => {
     loadingSettings(dispatch);
   }, []);
-  React.useEffect(() => {}, [theme]);
 
   return (
     <>
-      <ThemeProvider theme={theme}>
-        <Paper sx={{height:"100vh", boxShadow:"none", borderRadius:"0"}}>
+      <ThemeProvider theme={theme===ModeTheme.DARK_THEME ? darkTheme: lightTheme}>
+        <Paper sx={{ height: "100vh", boxShadow: "none", borderRadius: "0" }}>
           <Routes>
             <Route path="/" element={<MainLayout />}>
               <Route path="" element={<MainPage />} />

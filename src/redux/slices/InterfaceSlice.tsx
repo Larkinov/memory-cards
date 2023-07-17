@@ -1,14 +1,19 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 
+export enum ModeTheme {
+  DARK_THEME = "DARK_THEME",
+  LIGHT_THEME = "LIGHT_THEME",
+}
+
 export interface IGame {
   currentTab: number;
-  theme:any;
+  theme:ModeTheme;
 }
 
 const initialState: IGame = {
   currentTab: 1,
-  theme:"",
+  theme:localStorage.getItem("theme") as ModeTheme,
 };
 
 export const InterfaceSlice = createSlice({
@@ -18,7 +23,7 @@ export const InterfaceSlice = createSlice({
     setCurrentTab: (state, action: PayloadAction<number>) => {
       state.currentTab = action.payload;
     },
-    setTheme: (state, action: PayloadAction<any>) => {
+    setTheme: (state, action: PayloadAction<ModeTheme>) => {
       state.theme = action.payload;
     },
   },
