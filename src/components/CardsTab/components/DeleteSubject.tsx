@@ -8,6 +8,7 @@ import IconButton from "@mui/material/IconButton";
 import { useSelector } from "react-redux";
 import { RootState, useAppDispatch } from "../../../redux/store";
 import { deletePackageDB } from "../../../redux/slices/SubjectsSlice";
+import { deleteSubjectData } from "../../../utils/localUserData";
 
 const DeleteSubject: React.FC = () => {
   const [open, setOpen] = React.useState(false);
@@ -23,6 +24,7 @@ const DeleteSubject: React.FC = () => {
 
   const deleteSubject = () => {
     appDispatch(deletePackageDB(thisSubjectId));
+    deleteSubjectData(thisSubjectId);
     handleClose();
   };
 

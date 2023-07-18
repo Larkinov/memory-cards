@@ -8,20 +8,25 @@ import { Link } from "react-router-dom";
 import { Button } from "@mui/material";
 import AuthUI from "../Auth/AuthUI";
 import { useSelector } from "react-redux";
-import { RootState, useAppDispatch } from "../../redux/store";
-import { fetchPackageDB } from "../../redux/slices/SubjectsSlice";
+import { RootState } from "../../redux/store";
+import { setSubjects } from "../../redux/slices/SubjectsSlice";
 import MainSettings from "./MainSettings";
+import { getSubjectsData } from "../../utils/localUserData";
+import { useDispatch } from "react-redux";
 
 const Header: React.FC = () => {
-  const appDispatch = useAppDispatch();
+  const dispatch = useDispatch();
   const [isOpen, setIsOpen] = React.useState(false);
-  const { email, id } = useSelector((state: RootState) => state.user);
+  const { email } = useSelector((state: RootState) => state.user);
   const { subjects } = useSelector((state: RootState) => state.subjects);
 
   React.useEffect(() => {
     if (email !== "login") {
       if (subjects.length === 0) {
-        appDispatch(fetchPackageDB(id));
+        let subjects = getSubjectsData();
+        if (subjects) {
+          dispatch(setSubjects(subjects));
+        }
       }
     }
   }, [email]);

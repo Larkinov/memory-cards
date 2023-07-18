@@ -7,7 +7,7 @@ import PasswordUI from "./components/PasswordUI";
 import { Alert, Typography } from "@mui/material";
 import { RootState, useAppDispatch } from "../../redux/store";
 import { useSelector } from "react-redux";
-import { StatusProcess } from "../../redux/slices/SubjectsSlice";
+import { StatusProcess, fetchPackageDB } from "../../redux/slices/SubjectsSlice";
 import { setUserData } from "../../utils/localUserData";
 
 type LogOnProps = {
@@ -39,6 +39,7 @@ const LogOn: React.FC<LogOnProps> = ({ textBtn, setIsOpen }) => {
         break;
       case StatusProcess.SUCCESS:
         setUserData(id,email);
+        appDispatch(fetchPackageDB(id));
         setIsOpen(false);
         setIsErr(false);
         break;

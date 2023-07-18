@@ -12,6 +12,7 @@ import {
   where,
 } from "firebase/firestore";
 import { storage } from "../../firebase";
+import { setSubjectsData } from "../../utils/localUserData";
 
 export enum StatusProcess {
   LOADING = "loading",
@@ -100,6 +101,13 @@ export const subjectsSlices = createSlice({
     setSubject: (state, action: PayloadAction<TSubject>) => {
       state.subjects.push(action.payload);
     },
+    setSubjects: (state, action) => {
+      console.log(action.payload);
+      
+      action.payload.map((elem:TSubject) => {
+        state.subjects.push(elem);
+      })
+    },
     setIdSubject: (state, action: PayloadAction<string>) => {
       state.thisSubjectId = action.payload;
     },
@@ -152,6 +160,7 @@ export const subjectsSlices = createSlice({
         };
         state.subjects.push(sub);
       });
+      setSubjectsData(state.subjects);
     });
     builder.addCase(fetchPackageDB.rejected, (state) => {
       state.statusFetchPackage = StatusProcess.ERROR;
@@ -174,6 +183,7 @@ export const subjectsSlices = createSlice({
 
 export const {
   setSubject,
+  setSubjects,
   setIdSubject,
   clearSubjects,
   setIdUser,

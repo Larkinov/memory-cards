@@ -20,6 +20,7 @@ import Transition from "./Transition";
 import { StatusProcess, setStatusSetPackage } from "../../redux/slices/SubjectsSlice";
 import BtnContinue from "./BtnContinue";
 import StatusSetPackage from "./components/StatusSetPackage";
+import { setSubjectsData } from "../../utils/localUserData";
 
 type AddPackageProps = {
   isOpen: boolean;
@@ -33,6 +34,7 @@ const AddPackage: React.FC<AddPackageProps> = ({ isOpen, setOpen }) => {
   );
  
   const { cards } = useSelector((state: RootState) => state.package);
+  const {subjects} = useSelector((state:RootState)=>state.subjects);
   const [errorName, setErrorName] = React.useState(false);
   const [errorCards, setErrorCards] = React.useState(false);
   const handleClose = () => {
@@ -50,6 +52,7 @@ const AddPackage: React.FC<AddPackageProps> = ({ isOpen, setOpen }) => {
 
   React.useEffect(()=>{
     if(statusSetPackage===StatusProcess.SUCCESS){
+      setSubjectsData(subjects);
       setTimeout(() => {
         setOpen(false);
         dispatch(setStatusSetPackage(StatusProcess.EMPTY));

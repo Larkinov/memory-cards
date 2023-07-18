@@ -12,6 +12,7 @@ import {
   setSubject,
 } from "../../redux/slices/SubjectsSlice";
 import { useDispatch } from "react-redux";
+import { setSubjectsData } from "../../utils/localUserData";
 
 type BtnContinueProps = {
   errorCards: Function;
@@ -43,10 +44,10 @@ const BtnContinue: React.FC<BtnContinueProps> = ({ errorCards, errorName }) => {
           idUser: id,
           idSubject: id + "id" + idSubject,
         };
-        
-        if(id)
-        appDispatch(setPackageDB(pack));
-        else{
+
+        if (id) {
+          appDispatch(setPackageDB(pack));
+        } else {
           dispatch(setSubject(subject));
           dispatch(setStatusSetPackage(StatusProcess.SUCCESS));
         }

@@ -5,16 +5,22 @@ import LogoutIcon from "@mui/icons-material/Logout";
 import { useSelector } from "react-redux";
 import { RootState, useAppDispatch } from "../../../redux/store";
 import {exitProfile } from "../../../redux/slices/UserSlice";
-import { StatusProcess } from "../../../redux/slices/SubjectsSlice";
+import { StatusProcess, clearSubjects } from "../../../redux/slices/SubjectsSlice";
+import { clearSubjectsData, clearUserData } from "../../../utils/localUserData";
+import { useDispatch } from "react-redux";
 
 const Profile: React.FC = () => {
   const { email } = useSelector((state: RootState) => state.user);
   const appDispatch = useAppDispatch();
+  const dispatch = useDispatch();
   const [isErr, setIsErr] = React.useState(false);
   const {statusExit} = useSelector((state:RootState)=>state.user);
 
   const handleOut = () => {
     appDispatch(exitProfile());
+    clearUserData();
+    clearSubjectsData();
+    dispatch(clearSubjects());
   };
 
   React.useEffect(()=>{
