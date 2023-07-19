@@ -101,9 +101,7 @@ export const subjectsSlices = createSlice({
     setSubject: (state, action: PayloadAction<TSubject>) => {
       state.subjects.push(action.payload);
     },
-    setSubjects: (state, action) => {
-      console.log(action.payload);
-      
+    setSubjects: (state, action) => {      
       action.payload.map((elem:TSubject) => {
         state.subjects.push(elem);
       })

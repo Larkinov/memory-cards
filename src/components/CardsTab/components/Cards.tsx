@@ -31,7 +31,7 @@ const Cards: React.FC = () => {
         })
         .map((elem) =>
           elem.cards.map((card) => (
-            <Grid item xs={4}>
+            <Grid item xs={12} sm={6} md={4} lg={3} >
               <BasicCard
                 name={card.name}
                 description={card.description}

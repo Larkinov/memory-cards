@@ -16,6 +16,8 @@ import { useDispatch } from "react-redux";
 import { setGameCards } from "../redux/slices/GameSlice";
 import { getThisSubject } from "../utils/getThisSubject";
 import { setCurrentTab } from "../redux/slices/InterfaceSlice";
+import { useMediaQuery, useTheme } from "@mui/material";
+import SubjectsTab from "./ListSubjects/components/SubjectsTab";
 
 function a11yProps(index: number) {
   return {
@@ -25,6 +27,8 @@ function a11yProps(index: number) {
 }
 
 const MainPanel: React.FC = () => {
+  const themeState = useTheme();
+  const matchesSM = useMediaQuery(themeState.breakpoints.up("sm"));
   const { currentTab } = useSelector((state: RootState) => state.interfaceUI);
   const { thisSubjectId, subjects } = useSelector(
     (state: RootState) => state.subjects
@@ -40,22 +44,29 @@ const MainPanel: React.FC = () => {
     dispatch(setGameCards(subject.cards));
   };
 
+  React.useEffect(() => {}, [window.innerWidth]);
+
   return (
     <Grid
       container
       item
-      xl={10}
-      md={9}
-      xs={8}
+      sm={9}
+      xs={12}
       sx={{ height: "100%", position: "relative",}}
     >
-      <Grid item xs={12} sx={{ height: "102%", border: "1px solid lightgray", mr:"10px"}}>
+      <Grid
+        item
+        xs={12}
+        sx={{ height: "102%", border: "1px solid lightgray",}}
+      >
         <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
           <Tabs
             value={currentTab}
             onChange={handleChange}
             aria-label="basic tabs example"
-            sx={{ml:"10px"}}
+            sx={{ ml: "10px" }}
+            variant="scrollable"
+            scrollButtons="auto"
           >
             <Link
               to={thisSubjectId ? "game" : "#"}
@@ -73,15 +84,20 @@ const MainPanel: React.FC = () => {
                 Начать
               </Button>
             </Link>
-
-            <Tab label="Карточки" {...a11yProps(1)} />
-            <Tab label="Настройки" {...a11yProps(2)} />
+            {!matchesSM && <Tab label="Темы" {...a11yProps(1)} />}
+            <Tab label="Карточки" {...a11yProps(2)} />
+            <Tab label="Настройки" {...a11yProps(3)} />
           </Tabs>
         </Box>
-        <TabPanel value={currentTab} index={1}>
+        {!matchesSM && (
+          <TabPanel value={currentTab} index={1}>
+            <SubjectsTab />
+          </TabPanel>
+        )}
+        <TabPanel value={currentTab} index={matchesSM ? 1 : 2}>
           <CardsTab />
         </TabPanel>
-        <TabPanel value={currentTab} index={2}>
+        <TabPanel value={currentTab} index={matchesSM ? 2 : 3}>
           <SettingsTab />
         </TabPanel>
       </Grid>

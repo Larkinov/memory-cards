@@ -15,6 +15,8 @@ import { getSubjectsData } from "../../utils/localUserData";
 import { useDispatch } from "react-redux";
 
 const Header: React.FC = () => {
+
+
   const dispatch = useDispatch();
   const [isOpen, setIsOpen] = React.useState(false);
   const { email } = useSelector((state: RootState) => state.user);
@@ -31,12 +33,14 @@ const Header: React.FC = () => {
     }
   }, [email]);
 
+  
+
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
         <Toolbar>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            <Link to={"/"} style={{ textDecoration: "none", color: "inherit" }}>
+            <Link to={"/"} style={{ textDecoration: "none", color: "inherit", textTransform:"uppercase" }}>
               Memory Cards
             </Link>
           </Typography>

@@ -8,6 +8,7 @@ import { RootState } from "../../redux/store";
 import { getRandomArray } from "../../utils/getRandomCards";
 import { useDispatch } from "react-redux";
 import { setEndGame, setVictory } from "../../redux/slices/GameSlice";
+import { useMediaQuery, useTheme } from "@mui/material";
 
 const ListCardGame: React.FC = () => {
   const delay = 800;
@@ -18,6 +19,8 @@ const ListCardGame: React.FC = () => {
   const { gameCards } = useSelector((state: RootState) => state.game);
   const listCards = React.useRef(getRandomArray(gameCards));
   const dispatch = useDispatch();
+  const themeState = useTheme();
+  const matchesSM = useMediaQuery(themeState.breakpoints.up("sm"));
 
   const onClickCard = (idCardGame: number) => {
     if (iter.current + 1 >= gameCards.length) {
@@ -42,12 +45,15 @@ const ListCardGame: React.FC = () => {
     setRender(false);
   }, [render, end]);
 
+  React.useEffect(() => {
+  }, [window.innerWidth]);
+
   return (
     <>
       <CountCards iter={iter.current} length={gameCards.length} />
       <HealthUI wrong={countWrong.current} />
       <Paper sx={{ width: "100%", boxShadow:"none"}}>
-        <Grid item xs={12} m={"0 30%"} mt={"6%"}>
+        <Grid item xs={12}  m={!matchesSM ? "0 20%" : "0 30%"} mt={!matchesSM ? "12%" : "6%"}>
           <Stack direction={"column"} sx={{ zIndex: 1 }}>
             {listCards.current.map((card) => (
               <Button

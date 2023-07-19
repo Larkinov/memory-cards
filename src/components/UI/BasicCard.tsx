@@ -94,7 +94,7 @@ const BasicCard: React.FC<TBasicCard> = ({
         onClick={() => onClickCard()}
       >
         <CardContent sx={{ position: "relative" }}>
-          <Typography variant="h5" component="div" align="center">
+          <Typography variant="subtitle1" component="div" align="center">
             {name}
           </Typography>
           {description && (
@@ -111,6 +111,7 @@ const BasicCard: React.FC<TBasicCard> = ({
                 <CardActions>
                   <Button
                     size="small"
+                    sx={{textTransform:"lowercase"}}
                     color={"success"}
                     variant={"contained"}
                     onClick={() => handleOpen()}
